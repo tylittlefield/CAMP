@@ -1,0 +1,138 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden;
+  font-family: sans-serif;
+}
+
+#scene {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Day / Night */
+#scene.day {
+  background: linear-gradient(#9fd8ff, #ffffff);
+}
+
+#scene.night {
+  background: linear-gradient(#05091f, #010108);
+}
+
+/* Background image */
+.map {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 2;
+}
+
+/* Trail hover zones */
+.trail {
+  position: absolute;
+  z-index: 4;
+}
+
+.trail:hover {
+  background: rgba(255,255,255,0.07);
+  outline: 1px dashed rgba(255,255,255,0.5);
+}
+
+/* Adjust these to your drawing */
+.trail.about {
+  top: 28%;
+  left: 18%;
+  width: 18%;
+  height: 38%;
+}
+
+.trail.social {
+  top: 28%;
+  left: 41%;
+  width: 18%;
+  height: 38%;
+}
+
+.trail.contact {
+  top: 28%;
+  left: 64%;
+  width: 18%;
+  height: 38%;
+}
+
+/* Endpoints */
+.endpoint {
+  position: absolute;
+  z-index: 3;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* Cliff */
+.cliff {
+  bottom: 8%;
+  left: 22%;
+}
+
+.cliff-face {
+  width: 90px;
+  height: 60px;
+  background: linear-gradient(#666, #222);
+  border-radius: 6px;
+}
+
+/* Campground */
+.campground {
+  bottom: 9%;
+  left: 44%;
+  width: 200px;
+}
+
+.tent {
+  position: absolute;
+  width: 42px;
+  opacity: 0.95;
+}
+
+/* Scattered tents */
+.t1 { left: 0; top: 20px; }
+.t2 { left: 50px; top: 0; }
+.t3 { left: 100px; top: 30px; }
+.t4 { left: 150px; top: 10px; }
+
+/* Watchtower */
+.tower {
+  bottom: 8%;
+  left: 72%;
+}
+
+.watchtower {
+  width: 40px;
+  height: 80px;
+  border: 3px solid white;
+  position: relative;
+}
+
+.watchtower::after {
+  content: '';
+  position: absolute;
+  top: -18px;
+  left: -10px;
+  width: 60px;
+  height: 18px;
+  border: 3px solid white;
+}
+
+/* Night glow */
+#scene.night .endpoint {
+  text-shadow: 0 0 12px rgba(255,255,255,0.7);
+}
+
