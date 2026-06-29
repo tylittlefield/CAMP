@@ -64,15 +64,50 @@ body {
   );
 }
 
-/* Map overlay buttons (Shop All + Sign In) */
+/* Map overlay buttons (Shop All) */
 .map-buttons {
   position: absolute;
-  top: 20px;
+  top: 68px;
   left: 20px;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   z-index: 10;
+}
+
+/* Map top-right: Sign In + Cart */
+.map-top-right {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+}
+
+/* Cart icon button (dark aesthetic — map + explore pages) */
+.map-cart-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: rgba(20, 16, 10, 0.85);
+  border: 2px solid #6b5a3f;
+  border-radius: 50%;
+  color: #f4ead0;
+  text-decoration: none;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+.map-cart-icon:hover {
+  background: rgba(60, 45, 25, 0.95);
+  transform: scale(1.08);
+  box-shadow: 0 0 18px rgba(255,180,60,0.4);
+}
+.map-cart-icon svg {
+  width: 20px;
+  height: 20px;
 }
 
 .map-btn {
@@ -98,12 +133,20 @@ body {
 
 @media (max-width: 800px) {
   .map-buttons {
-    top: 8px;
+    top: 58px;
     left: 8px;
+  }
+  .map-top-right {
+    top: 8px;
+    right: 8px;
   }
   .map-btn {
     font-size: 0.5rem;
     padding: 0.5rem 0.75rem;
+  }
+  .map-cart-icon {
+    width: 36px;
+    height: 36px;
   }
 }
 
@@ -203,7 +246,7 @@ body {
 /* Day/Night toggle */
 .day-night-toggle {
   position: absolute;
-  right: 16px;
+  right: 70px;
   top: 16px;
   display: flex;
   align-items: center;
@@ -252,7 +295,7 @@ body {
 .map-menu-icon {
   position: absolute;
   top: 20px;
-  right: 20px;
+  left: 20px;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -386,6 +429,6 @@ body {
 @media (max-width: 800px) {
   .map-menu-icon {
     top: 8px;
-    right: 8px;
+    left: 8px;
   }
 }

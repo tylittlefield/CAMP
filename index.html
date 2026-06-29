@@ -23,6 +23,11 @@
       <a href="sea-collection.html" data-i18n="sea">Sea Collection</a>
     </div>
     <div class="map-menu-divider"></div>
+    <div class="map-menu-section" data-i18n="map-section">Map</div>
+    <div class="map-menu-nav">
+      <a href="index.html" data-i18n="map">Map</a>
+    </div>
+    <div class="map-menu-divider"></div>
     <div class="map-menu-nav">
       <a href="explore.html" data-i18n="explore">Explore</a>
       <a href="shop.html" data-i18n="shop-all">Shop All</a>
@@ -55,16 +60,23 @@
       <a href="base-camp-collection.html" class="hotspot basecamp" style="left:38%; top:55%; width:14%; height:16%;" data-name="Base Camp"></a>
       <a href="sea-collection.html"      class="hotspot sea"      style="left:5%;  top:62%; width:16%; height:24%;" data-name="Sea Collection"></a>
 
-      <!-- Map overlay buttons -->
-      <div class="map-buttons">
-        <a href="shop.html" class="map-btn shop-btn">Shop All</a>
-        <a href="signin.html" class="map-btn signin-btn">Sign In</a>
-      </div>
-
-      <!-- Hamburger menu button -->
+      <!-- Hamburger menu button (top-left) -->
       <button class="map-menu-icon" onclick="openMenu()" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
+
+      <!-- Map overlay buttons (top-left, below hamburger) -->
+      <div class="map-buttons">
+        <a href="shop.html" class="map-btn shop-btn">Shop All</a>
+      </div>
+
+      <!-- Sign In + Cart (top-right) -->
+      <div class="map-top-right">
+        <a href="signin.html" class="map-btn signin-btn">Sign In</a>
+        <a href="cart.html" class="map-cart-icon" aria-label="Cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        </a>
+      </div>
 
       <!-- Arrow to next page -->
       <a href="explore.html" class="next-arrow" aria-label="Explore trails">
