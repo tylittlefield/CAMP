@@ -7,6 +7,43 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Menu overlay + drawer -->
+  <div class="map-menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+  <nav class="map-menu-drawer" id="menuDrawer">
+    <div class="map-menu-top">
+      <span class="map-menu-top-label" data-i18n="menu">Menu</span>
+      <button class="map-menu-close-btn" onclick="closeMenu()" aria-label="Close menu">&#x2715;</button>
+    </div>
+    <div class="map-menu-section" data-i18n="collections">Collections</div>
+    <div class="map-menu-nav">
+      <a href="peaks-collection.html" data-i18n="peaks">Peaks Collection</a>
+      <a href="explorer-collection.html" data-i18n="explorer">Explorer Collection</a>
+      <a href="wildlife-collection.html" data-i18n="wildlife">Wildlife Collection</a>
+      <a href="base-camp-collection.html" data-i18n="basecamp">Base Camp</a>
+      <a href="sea-collection.html" data-i18n="sea">Sea Collection</a>
+    </div>
+    <div class="map-menu-divider"></div>
+    <div class="map-menu-nav">
+      <a href="explore.html" data-i18n="explore">Explore</a>
+      <a href="shop.html" data-i18n="shop-all">Shop All</a>
+      <a href="new-arrivals.html" data-i18n="new-arrivals">New Arrivals</a>
+      <a href="about.html" data-i18n="about">About</a>
+      <a href="help.html" data-i18n="help">Help</a>
+    </div>
+    <div class="map-menu-divider"></div>
+    <div class="map-menu-section" data-i18n="language">Language</div>
+    <div class="map-menu-lang-wrap">
+      <select class="map-menu-lang-select menu-lang-select" onchange="setLanguage(this.value)">
+        <option value="en">&#127760; English</option>
+        <option value="es">&#127760; Espa&#241;ol</option>
+        <option value="fr">&#127760; Fran&#231;ais</option>
+        <option value="de">&#127760; Deutsch</option>
+        <option value="ja">&#127760; &#26085;&#26412;&#35486;</option>
+        <option value="zh">&#127760; &#20013;&#25991;</option>
+      </select>
+    </div>
+  </nav>
+
   <div class="map-page">
     <div class="map-wrapper">
       <img src="" alt="Camp Map" class="map-img" id="mapImg">
@@ -24,6 +61,11 @@
         <a href="signin.html" class="map-btn signin-btn">Sign In</a>
       </div>
 
+      <!-- Hamburger menu button -->
+      <button class="map-menu-icon" onclick="openMenu()" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+
       <!-- Arrow to next page -->
       <a href="explore.html" class="next-arrow" aria-label="Explore trails">
         <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -37,5 +79,11 @@
   </div>
 
   <script src="script.js"></script>
+  <script>
+    function openMenu(){document.getElementById('menuDrawer').classList.add('open');document.getElementById('menuOverlay').classList.add('open');document.body.style.overflow='hidden';}
+    function closeMenu(){document.getElementById('menuDrawer').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open');document.body.style.overflow='';}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
+  </script>
+  <script src="lang.js"></script>
 </body>
 </html>

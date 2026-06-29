@@ -246,3 +246,146 @@ body {
 .label-tag.visible {
   opacity: 1;
 }
+
+/* ---------- MAP PAGE SLIDE-OUT MENU ---------- */
+
+.map-menu-icon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: rgba(20, 16, 10, 0.85);
+  border: 2px solid #6b5a3f;
+  border-radius: 4px;
+  padding: 8px 10px;
+  z-index: 10;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+.map-menu-icon:hover {
+  background: rgba(60, 45, 25, 0.95);
+  box-shadow: 0 0 14px rgba(255,180,60,0.35);
+}
+.map-menu-icon span {
+  display: block;
+  width: 28px;
+  height: 2px;
+  background: #f4ead0;
+}
+.map-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0);
+  z-index: 100;
+  pointer-events: none;
+  transition: background 0.3s ease;
+}
+.map-menu-overlay.open {
+  background: rgba(0,0,0,0.6);
+  pointer-events: all;
+}
+.map-menu-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px;
+  max-width: 85vw;
+  height: 100vh;
+  background: #16110b;
+  border-right: 2px solid #6b5a3f;
+  z-index: 101;
+  transform: translateX(-100%);
+  transition: transform 0.32s cubic-bezier(.4,0,.2,1);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.map-menu-drawer.open {
+  transform: translateX(0);
+}
+.map-menu-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 28px 18px;
+  border-bottom: 1px solid #6b5a3f;
+}
+.map-menu-top-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #f4ead0;
+}
+.map-menu-close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #f4ead0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: background 0.15s ease;
+}
+.map-menu-close-btn:hover {
+  background: rgba(107, 90, 63, 0.4);
+}
+.map-menu-section {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #f4ead0;
+  opacity: 0.45;
+  padding: 20px 28px 6px;
+}
+.map-menu-nav a {
+  display: block;
+  padding: 12px 28px;
+  font-family: 'VT323', monospace;
+  font-size: 1.5rem;
+  color: #f4ead0;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: background 0.15s ease;
+}
+.map-menu-nav a:hover {
+  background: rgba(107, 90, 63, 0.3);
+}
+.map-menu-divider {
+  height: 1px;
+  background: #6b5a3f;
+  margin: 8px 0;
+}
+.map-menu-lang-wrap {
+  padding: 10px 28px;
+}
+.map-menu-lang-select {
+  font-family: 'VT323', monospace;
+  font-size: 1.4rem;
+  background: none;
+  border: none;
+  color: #f4ead0;
+  cursor: pointer;
+  width: 100%;
+  padding: 2px 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.map-menu-lang-select option {
+  background: #16110b;
+  color: #f4ead0;
+}
+
+@media (max-width: 800px) {
+  .map-menu-icon {
+    top: 8px;
+    right: 8px;
+  }
+}
