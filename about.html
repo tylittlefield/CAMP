@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMP — About</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Archivo:wght@400;500;600;700&display=swap');
+
+  :root{--olive:#A9B36C;--olive-light:#C2CC8E;--olive-dark:#3A3C1C;--cream:#F0EDD9;--tan:#D8D2BF;--ink:#2A2A1E;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Cormorant Garamond',serif;background:var(--cream);color:var(--ink);}
+
+  /* ── header ── */
+  header{display:flex;align-items:center;justify-content:space-between;padding:24px 28px 18px;background:var(--olive-light);}
+  .menu-icon{display:flex;flex-direction:column;gap:6px;cursor:pointer;}
+  .menu-icon span{display:block;width:32px;height:3px;background:var(--ink);}
+  .logo a{display:flex;align-items:center;text-decoration:none;}
+  .logo img{height:34px;width:auto;}
+  .cart-link{display:flex;align-items:center;gap:6px;font-family:'Archivo',sans-serif;font-weight:600;font-size:1rem;text-decoration:none;color:var(--ink);}
+  .cart-link svg{width:24px;height:22px;}
+
+  /* ── hero ── */
+  .hero{
+    background:var(--olive-dark);
+    color:var(--cream);
+    padding:100px 28px 80px;
+    text-align:center;
+  }
+  .hero-eyebrow{
+    font-family:'Archivo',sans-serif;
+    font-size:0.72rem;font-weight:700;
+    letter-spacing:0.18em;text-transform:uppercase;
+    opacity:0.55;margin-bottom:20px;
+  }
+  .hero-title{
+    font-size:clamp(3rem,8vw,6rem);
+    font-style:italic;font-weight:300;
+    line-height:1;margin-bottom:28px;
+  }
+  .hero-sub{
+    font-size:1.35rem;max-width:520px;
+    margin:0 auto;line-height:1.7;opacity:0.75;
+  }
+
+  /* ── section ── */
+  .section{padding:80px 28px;max-width:760px;margin:0 auto;}
+  .section + .section{border-top:1px solid var(--tan);}
+
+  .section-label{
+    font-family:'Archivo',sans-serif;font-size:0.68rem;
+    font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
+    opacity:0.4;margin-bottom:18px;
+  }
+  .section-title{
+    font-size:clamp(2rem,5vw,3.2rem);
+    font-style:italic;font-weight:400;
+    line-height:1.1;margin-bottom:24px;
+  }
+  .section-body{font-size:1.25rem;line-height:1.75;opacity:0.8;}
+  .section-body p+p{margin-top:1em;}
+
+  /* ── pillars ── */
+  .pillars{
+    background:var(--olive);
+    padding:80px 28px;
+  }
+  .pillars-inner{max-width:900px;margin:0 auto;}
+  .pillars-heading{
+    font-size:clamp(1.8rem,4vw,2.8rem);
+    font-style:italic;text-align:center;
+    margin-bottom:56px;
+  }
+  .pillar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;}
+  .pillar{text-align:center;}
+  .pillar-icon{font-size:2rem;margin-bottom:16px;}
+  .pillar-name{
+    font-family:'Archivo',sans-serif;font-size:0.75rem;
+    font-weight:700;letter-spacing:0.12em;text-transform:uppercase;
+    margin-bottom:12px;
+  }
+  .pillar-text{font-size:1.15rem;line-height:1.65;opacity:0.85;}
+
+  @media(max-width:600px){
+    .pillar-grid{grid-template-columns:1fr;}
+  }
+
+  /* ── team ── */
+  .team-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:28px;
+    margin-top:40px;
+  }
+  .team-card{
+    background:var(--olive-light);
+    border-radius:4px;
+    padding:32px 24px;
+  }
+  .team-name{
+    font-family:'Archivo',sans-serif;
+    font-size:0.8rem;font-weight:700;
+    letter-spacing:0.06em;text-transform:uppercase;
+    margin-bottom:4px;
+  }
+  .team-role{font-style:italic;font-size:1.1rem;opacity:0.6;margin-bottom:14px;}
+  .team-bio{font-size:1.1rem;line-height:1.65;opacity:0.8;}
+
+  @media(max-width:560px){
+    .team-grid{grid-template-columns:1fr;}
+  }
+
+  /* ── cta ── */
+  .cta{
+    background:var(--olive-dark);color:var(--cream);
+    text-align:center;padding:80px 28px;
+  }
+  .cta-title{
+    font-size:clamp(2rem,5vw,3.2rem);
+    font-style:italic;margin-bottom:28px;
+  }
+  .cta-btn{
+    display:inline-block;
+    padding:16px 44px;
+    background:var(--cream);color:var(--ink);
+    font-family:'Archivo',sans-serif;font-size:0.8rem;
+    font-weight:700;letter-spacing:0.12em;text-transform:uppercase;
+    text-decoration:none;border-radius:3px;
+    transition:background 0.2s ease;
+  }
+  .cta-btn:hover{background:var(--tan);}
+
+  /* ── slide-out menu ── */
+  .menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,0);z-index:100;pointer-events:none;transition:background 0.3s ease;}
+  .menu-overlay.open{background:rgba(0,0,0,0.45);pointer-events:all;}
+  .menu-drawer{position:fixed;top:0;left:0;width:300px;max-width:85vw;height:100vh;background:var(--cream);z-index:101;transform:translateX(-100%);transition:transform 0.32s cubic-bezier(.4,0,.2,1);overflow-y:auto;display:flex;flex-direction:column;}
+  .menu-drawer.open{transform:translateX(0);}
+  .menu-top{display:flex;align-items:center;justify-content:space-between;padding:22px 28px 18px;border-bottom:1px solid var(--tan);}
+  .menu-top-label{font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);}
+  .menu-close-btn{background:none;border:none;cursor:pointer;font-size:1.4rem;color:var(--ink);display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;transition:background 0.15s ease;}
+  .menu-close-btn:hover{background:var(--tan);}
+  .menu-section{font-family:'Archivo',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);opacity:0.45;padding:20px 28px 6px;}
+  .menu-nav a{display:block;padding:11px 28px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.45rem;color:var(--ink);text-decoration:none;transition:background 0.15s ease;}
+  .menu-nav a:hover{background:var(--tan);}
+  .menu-divider{height:1px;background:var(--tan);margin:8px 0;}
+  .menu-lang-wrap{padding:10px 28px;}
+  .menu-lang-select{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.4rem;background:none;border:none;color:var(--ink);cursor:pointer;width:100%;padding:2px 0;-webkit-appearance:none;appearance:none;}
+</style>
+</head>
+<body>
+
+  <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+  <nav class="menu-drawer" id="menuDrawer">
+    <div class="menu-top">
+      <span class="menu-top-label" data-i18n="menu">Menu</span>
+      <button class="menu-close-btn" onclick="closeMenu()" aria-label="Close menu">&#x2715;</button>
+    </div>
+    <div class="menu-section" data-i18n="collections">Collections</div>
+    <div class="menu-nav">
+      <a href="peaks-collection.html" data-i18n="peaks">Peaks Collection</a>
+      <a href="explorer-collection.html" data-i18n="explorer">Explorer Collection</a>
+      <a href="wildlife-collection.html" data-i18n="wildlife">Wildlife Collection</a>
+      <a href="base-camp-collection.html" data-i18n="basecamp">Base Camp</a>
+      <a href="sea-collection.html" data-i18n="sea">Sea Collection</a>
+    </div>
+    <div class="menu-divider"></div>
+    <div class="menu-nav">
+      <a href="explore.html" data-i18n="explore">Explore</a>
+      <a href="shop.html" data-i18n="shop-all">Shop All</a>
+      <a href="new-arrivals.html" data-i18n="new-arrivals">New Arrivals</a>
+      <a href="about.html" data-i18n="about">About</a>
+      <a href="help.html" data-i18n="help">Help</a>
+    </div>
+    <div class="menu-divider"></div>
+    <div class="menu-section" data-i18n="language">Language</div>
+    <div class="menu-lang-wrap">
+      <select class="menu-lang-select" onchange="setLanguage(this.value)">
+        <option value="en">&#127760; English</option>
+        <option value="es">&#127760; Espa&#241;ol</option>
+        <option value="fr">&#127760; Fran&#231;ais</option>
+        <option value="de">&#127760; Deutsch</option>
+        <option value="ja">&#127760; &#26085;&#26412;&#35486;</option>
+        <option value="zh">&#127760; &#20013;&#25991;</option>
+      </select>
+    </div>
+  </nav>
+
+  <header>
+    <div class="menu-icon" onclick="openMenu()" role="button" aria-label="Open menu" tabindex="0">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="logo"><a href="index.html"><img src="images/camp-logo-full.png" alt="CAMP"></a></div>
+    <a href="cart.html" class="cart-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span data-i18n="cart">Cart</span>
+    </a>
+  </header>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-eyebrow">Est. 2024</div>
+    <div class="hero-title">Built for the wild.</div>
+    <div class="hero-sub">CAMP makes gear and clothing for people who find themselves most alive when they're furthest from everything else.</div>
+  </div>
+
+  <!-- Story -->
+  <div class="section">
+    <div class="section-label">Our Story</div>
+    <div class="section-title">We started with one question.</div>
+    <div class="section-body">
+      <p>Why does outdoor gear have to look like outdoor gear? We wanted clothing that could move from a ridgeline to a harbor, from a forest floor to a city sidewalk — without announcing itself.</p>
+      <p>CAMP was built around that idea. Every piece we make starts in the field, tested across the terrain that inspired its name: the peaks, the trails, the sea, the base camp where everything begins.</p>
+      <p>We keep collections small and deliberate. No seasonal churn, no trend chasing. Just well-made things that earn their place in your pack.</p>
+    </div>
+  </div>
+
+  <!-- Pillars -->
+  <div class="pillars">
+    <div class="pillars-inner">
+      <div class="pillars-heading">What we stand for.</div>
+      <div class="pillar-grid">
+        <div class="pillar">
+          <div class="pillar-icon">&#9651;</div>
+          <div class="pillar-name">Craft</div>
+          <div class="pillar-text">Every seam, zipper, and fabric is chosen for performance first. Beauty follows from things that actually work.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">&#9788;</div>
+          <div class="pillar-name">Exploration</div>
+          <div class="pillar-text">We design for movement — for people who travel light and stay out long. Comfort without compromise.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">&#9675;</div>
+          <div class="pillar-name">Responsibility</div>
+          <div class="pillar-text">The places that inspire us depend on how we treat them. We source responsibly and build things meant to last.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Team -->
+  <div class="section">
+    <div class="section-label">The Team</div>
+    <div class="section-title">People who live it.</div>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-name">Founders</div>
+        <div class="team-role">The people behind CAMP</div>
+        <div class="team-bio">Built by a small team of hikers, climbers, and sailors who got tired of choosing between function and form.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">Community</div>
+        <div class="team-role">Our extended crew</div>
+        <div class="team-bio">CAMP exists because of the people who test our gear in conditions we couldn't plan for. You shape every collection.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">Partners</div>
+        <div class="team-role">Who we work with</div>
+        <div class="team-bio">We work with a tight network of makers who share our standards. Small batches, real relationships.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">Land</div>
+        <div class="team-role">What drives us</div>
+        <div class="team-bio">A portion of every sale goes toward trail maintenance and open-space preservation. The wild keeps giving — so do we.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <div class="cta-title">Ready to explore?</div>
+    <a href="shop.html" class="cta-btn">Shop All Collections</a>
+  </div>
+
+  <script>
+    function openMenu(){document.getElementById('menuDrawer').classList.add('open');document.getElementById('menuOverlay').classList.add('open');document.body.style.overflow='hidden';}
+    function closeMenu(){document.getElementById('menuDrawer').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open');document.body.style.overflow='';}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
+  </script>
+  <script src="lang.js"></script>
+</body>
+</html>

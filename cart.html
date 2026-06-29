@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMP — Cart</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Archivo:wght@400;500;600;700&display=swap');
+
+  :root{--olive:#A9B36C;--olive-light:#C2CC8E;--olive-dark:#3A3C1C;--cream:#F0EDD9;--tan:#D8D2BF;--ink:#2A2A1E;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Cormorant Garamond',serif;background:var(--cream);color:var(--ink);min-height:100vh;}
+
+  /* ── header ── */
+  header{display:flex;align-items:center;justify-content:space-between;padding:24px 28px 18px;background:var(--olive-light);}
+  .menu-icon{display:flex;flex-direction:column;gap:6px;cursor:pointer;}
+  .menu-icon span{display:block;width:32px;height:3px;background:var(--ink);}
+  .logo a{display:flex;align-items:center;text-decoration:none;}
+  .logo img{height:34px;width:auto;}
+  .header-right{display:flex;align-items:center;gap:6px;font-family:'Archivo',sans-serif;font-weight:600;font-size:1rem;}
+  .header-right svg{width:24px;height:22px;}
+
+  /* ── layout ── */
+  .cart-layout{
+    display:grid;
+    grid-template-columns:1fr 360px;
+    gap:0;
+    max-width:1100px;
+    margin:0 auto;
+    padding:48px 28px 80px;
+    align-items:start;
+  }
+
+  @media(max-width:760px){
+    .cart-layout{grid-template-columns:1fr;padding:32px 20px 60px;}
+    .order-summary{margin-top:32px;}
+  }
+
+  /* ── page title ── */
+  .cart-title{
+    font-size:2.6rem;font-style:italic;font-weight:400;
+    margin-bottom:36px;
+  }
+
+  /* ── items ── */
+  .cart-items{padding-right:48px;}
+  @media(max-width:760px){.cart-items{padding-right:0;}}
+
+  .cart-item{
+    display:grid;
+    grid-template-columns:96px 1fr auto;
+    gap:20px;
+    padding:24px 0;
+    border-bottom:1px solid var(--tan);
+    align-items:start;
+  }
+
+  .item-img{
+    width:96px;height:116px;
+    background:var(--olive);
+    border-radius:3px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:2rem;
+    flex-shrink:0;
+  }
+
+  .item-details{}
+  .item-name{
+    font-size:1.35rem;font-weight:500;
+    margin-bottom:4px;
+  }
+  .item-meta{
+    font-size:1.05rem;opacity:0.55;
+    margin-bottom:16px;line-height:1.5;
+  }
+  .item-qty{
+    display:flex;align-items:center;gap:0;
+    border:1.5px solid var(--tan);
+    border-radius:3px;
+    width:fit-content;
+  }
+  .qty-btn{
+    background:none;border:none;cursor:pointer;
+    width:32px;height:32px;
+    font-size:1.1rem;color:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    transition:background 0.15s;
+  }
+  .qty-btn:hover{background:var(--tan);}
+  .qty-num{
+    padding:0 10px;font-size:1.1rem;
+    border-left:1px solid var(--tan);
+    border-right:1px solid var(--tan);
+    min-width:36px;text-align:center;
+    line-height:32px;
+  }
+
+  .item-price{
+    font-size:1.25rem;font-weight:500;
+    white-space:nowrap;text-align:right;
+  }
+  .item-remove{
+    display:block;margin-top:8px;
+    font-size:0.9rem;opacity:0.4;
+    cursor:pointer;text-align:right;
+    background:none;border:none;color:var(--ink);
+    transition:opacity 0.15s;font-family:inherit;
+  }
+  .item-remove:hover{opacity:0.8;}
+
+  /* ── empty state ── */
+  .cart-empty{
+    display:none;
+    text-align:center;
+    padding:80px 0;
+  }
+  .cart-empty.visible{display:block;}
+  .empty-icon{font-size:3rem;margin-bottom:20px;opacity:0.3;}
+  .empty-title{font-size:1.8rem;font-style:italic;margin-bottom:12px;}
+  .empty-sub{font-size:1.1rem;opacity:0.5;margin-bottom:32px;}
+  .empty-btn{
+    display:inline-block;padding:14px 36px;
+    background:var(--olive-dark);color:var(--cream);
+    font-family:'Archivo',sans-serif;font-size:0.78rem;
+    font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+    text-decoration:none;border-radius:3px;
+    transition:background 0.2s;
+  }
+  .empty-btn:hover{background:#2e3010;}
+
+  /* ── order summary ── */
+  .order-summary{
+    background:var(--olive-light);
+    border-radius:4px;
+    padding:32px 28px;
+    position:sticky;top:28px;
+  }
+  .summary-title{
+    font-family:'Archivo',sans-serif;font-size:0.72rem;
+    font-weight:700;letter-spacing:0.12em;text-transform:uppercase;
+    margin-bottom:24px;
+  }
+  .summary-row{
+    display:flex;justify-content:space-between;
+    font-size:1.15rem;padding:10px 0;
+    border-bottom:1px solid rgba(42,42,30,0.12);
+  }
+  .summary-row:last-of-type{border-bottom:none;}
+  .summary-total{
+    display:flex;justify-content:space-between;
+    font-size:1.35rem;font-weight:500;
+    padding:18px 0 24px;
+    border-top:1.5px solid var(--ink);margin-top:8px;
+  }
+  .checkout-btn{
+    display:block;width:100%;padding:17px;
+    background:var(--olive-dark);color:var(--cream);
+    font-family:'Archivo',sans-serif;font-size:0.8rem;
+    font-weight:700;letter-spacing:0.12em;text-transform:uppercase;
+    border:none;border-radius:3px;cursor:pointer;
+    transition:background 0.2s,transform 0.15s;
+  }
+  .checkout-btn:hover{background:#2e3010;transform:translateY(-1px);}
+  .continue-link{
+    display:block;text-align:center;margin-top:16px;
+    font-style:italic;font-size:1.05rem;
+    color:var(--ink);opacity:0.55;text-decoration:none;
+    transition:opacity 0.15s;
+  }
+  .continue-link:hover{opacity:1;}
+  .promo-wrap{margin-top:24px;padding-top:20px;border-top:1px solid rgba(42,42,30,0.15);}
+  .promo-label{font-family:'Archivo',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.5;margin-bottom:8px;}
+  .promo-row{display:flex;gap:8px;}
+  .promo-input{
+    flex:1;padding:10px 12px;
+    font-family:'Cormorant Garamond',serif;font-size:1.1rem;
+    background:#fff;border:1.5px solid var(--tan);border-radius:3px;
+    color:var(--ink);outline:none;
+  }
+  .promo-input:focus{border-color:var(--olive-dark);}
+  .promo-btn{
+    padding:10px 16px;background:var(--ink);color:var(--cream);
+    font-family:'Archivo',sans-serif;font-size:0.7rem;font-weight:700;
+    letter-spacing:0.08em;text-transform:uppercase;
+    border:none;border-radius:3px;cursor:pointer;
+    transition:background 0.2s;
+  }
+  .promo-btn:hover{background:#444;}
+
+  /* ── slide-out menu ── */
+  .menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,0);z-index:100;pointer-events:none;transition:background 0.3s ease;}
+  .menu-overlay.open{background:rgba(0,0,0,0.45);pointer-events:all;}
+  .menu-drawer{position:fixed;top:0;left:0;width:300px;max-width:85vw;height:100vh;background:var(--cream);z-index:101;transform:translateX(-100%);transition:transform 0.32s cubic-bezier(.4,0,.2,1);overflow-y:auto;display:flex;flex-direction:column;}
+  .menu-drawer.open{transform:translateX(0);}
+  .menu-top{display:flex;align-items:center;justify-content:space-between;padding:22px 28px 18px;border-bottom:1px solid var(--tan);}
+  .menu-top-label{font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);}
+  .menu-close-btn{background:none;border:none;cursor:pointer;font-size:1.4rem;color:var(--ink);display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;transition:background 0.15s;}
+  .menu-close-btn:hover{background:var(--tan);}
+  .menu-section{font-family:'Archivo',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);opacity:0.45;padding:20px 28px 6px;}
+  .menu-nav a{display:block;padding:11px 28px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.45rem;color:var(--ink);text-decoration:none;transition:background 0.15s;}
+  .menu-nav a:hover{background:var(--tan);}
+  .menu-divider{height:1px;background:var(--tan);margin:8px 0;}
+  .menu-lang-wrap{padding:10px 28px;}
+  .menu-lang-select{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.4rem;background:none;border:none;color:var(--ink);cursor:pointer;width:100%;padding:2px 0;-webkit-appearance:none;appearance:none;}
+</style>
+</head>
+<body>
+
+  <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+  <nav class="menu-drawer" id="menuDrawer">
+    <div class="menu-top">
+      <span class="menu-top-label" data-i18n="menu">Menu</span>
+      <button class="menu-close-btn" onclick="closeMenu()" aria-label="Close menu">&#x2715;</button>
+    </div>
+    <div class="menu-section" data-i18n="collections">Collections</div>
+    <div class="menu-nav">
+      <a href="peaks-collection.html" data-i18n="peaks">Peaks Collection</a>
+      <a href="explorer-collection.html" data-i18n="explorer">Explorer Collection</a>
+      <a href="wildlife-collection.html" data-i18n="wildlife">Wildlife Collection</a>
+      <a href="base-camp-collection.html" data-i18n="basecamp">Base Camp</a>
+      <a href="sea-collection.html" data-i18n="sea">Sea Collection</a>
+    </div>
+    <div class="menu-divider"></div>
+    <div class="menu-nav">
+      <a href="explore.html" data-i18n="explore">Explore</a>
+      <a href="shop.html" data-i18n="shop-all">Shop All</a>
+      <a href="new-arrivals.html" data-i18n="new-arrivals">New Arrivals</a>
+      <a href="about.html" data-i18n="about">About</a>
+      <a href="help.html" data-i18n="help">Help</a>
+    </div>
+    <div class="menu-divider"></div>
+    <div class="menu-section" data-i18n="language">Language</div>
+    <div class="menu-lang-wrap">
+      <select class="menu-lang-select" onchange="setLanguage(this.value)">
+        <option value="en">&#127760; English</option>
+        <option value="es">&#127760; Espa&#241;ol</option>
+        <option value="fr">&#127760; Fran&#231;ais</option>
+        <option value="de">&#127760; Deutsch</option>
+        <option value="ja">&#127760; &#26085;&#26412;&#35486;</option>
+        <option value="zh">&#127760; &#20013;&#25991;</option>
+      </select>
+    </div>
+  </nav>
+
+  <header>
+    <div class="menu-icon" onclick="openMenu()" role="button" aria-label="Open menu" tabindex="0">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="logo"><a href="index.html"><img src="images/camp-logo-full.png" alt="CAMP"></a></div>
+    <div class="header-right">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span data-i18n="cart">Cart</span>
+    </div>
+  </header>
+
+  <div class="cart-layout">
+
+    <!-- Left: items -->
+    <div class="cart-items">
+      <div class="cart-title">Your Cart</div>
+
+      <!-- Sample item 1 -->
+      <div class="cart-item" id="item1">
+        <div class="item-img">&#9651;</div>
+        <div class="item-details">
+          <div class="item-name">Ridge Shell Jacket</div>
+          <div class="item-meta">Peaks Collection<br>Size: M &nbsp;·&nbsp; Slate</div>
+          <div class="item-qty">
+            <button class="qty-btn" onclick="changeQty('q1',-1)">&#8722;</button>
+            <span class="qty-num" id="q1">1</span>
+            <button class="qty-btn" onclick="changeQty('q1',1)">&#43;</button>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div class="item-price" id="p1">$198</div>
+          <button class="item-remove" onclick="removeItem('item1',198)">Remove</button>
+        </div>
+      </div>
+
+      <!-- Sample item 2 -->
+      <div class="cart-item" id="item2">
+        <div class="item-img">&#127754;</div>
+        <div class="item-details">
+          <div class="item-name">Harbor Crew Fleece</div>
+          <div class="item-meta">Sea Collection<br>Size: L &nbsp;·&nbsp; Navy</div>
+          <div class="item-qty">
+            <button class="qty-btn" onclick="changeQty('q2',-1)">&#8722;</button>
+            <span class="qty-num" id="q2">1</span>
+            <button class="qty-btn" onclick="changeQty('q2',1)">&#43;</button>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div class="item-price" id="p2">$124</div>
+          <button class="item-remove" onclick="removeItem('item2',124)">Remove</button>
+        </div>
+      </div>
+
+      <!-- Sample item 3 -->
+      <div class="cart-item" id="item3">
+        <div class="item-img">&#127795;</div>
+        <div class="item-details">
+          <div class="item-name">Trail Cap</div>
+          <div class="item-meta">Explorer Collection<br>One Size &nbsp;·&nbsp; Forest</div>
+          <div class="item-qty">
+            <button class="qty-btn" onclick="changeQty('q3',-1)">&#8722;</button>
+            <span class="qty-num" id="q3">2</span>
+            <button class="qty-btn" onclick="changeQty('q3',1)">&#43;</button>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div class="item-price" id="p3">$84</div>
+          <button class="item-remove" onclick="removeItem('item3',42)">Remove</button>
+        </div>
+      </div>
+
+      <!-- Empty state (shown when all items removed) -->
+      <div class="cart-empty" id="emptyState">
+        <div class="empty-icon">&#128722;</div>
+        <div class="empty-title">Your cart is empty.</div>
+        <div class="empty-sub">Looks like you haven't added anything yet.</div>
+        <a href="shop.html" class="empty-btn">Shop All Collections</a>
+      </div>
+    </div>
+
+    <!-- Right: summary -->
+    <div class="order-summary" id="orderSummary">
+      <div class="summary-title">Order Summary</div>
+      <div class="summary-row"><span>Subtotal</span><span id="subtotal">$406</span></div>
+      <div class="summary-row"><span>Shipping</span><span>Calculated at checkout</span></div>
+      <div class="summary-row"><span>Tax</span><span>Calculated at checkout</span></div>
+      <div class="summary-total"><span>Total</span><span id="total">$406</span></div>
+      <button class="checkout-btn">Proceed to Checkout</button>
+      <a href="shop.html" class="continue-link">Continue shopping</a>
+
+      <div class="promo-wrap">
+        <div class="promo-label">Promo Code</div>
+        <div class="promo-row">
+          <input class="promo-input" type="text" placeholder="Enter code">
+          <button class="promo-btn">Apply</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function openMenu(){document.getElementById('menuDrawer').classList.add('open');document.getElementById('menuOverlay').classList.add('open');document.body.style.overflow='hidden';}
+    function closeMenu(){document.getElementById('menuDrawer').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open');document.body.style.overflow='';}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
+
+    // Simple cart interactivity
+    const prices = {q1:198, q2:124, q3:42}; // per-unit prices
+    const qtys   = {q1:1,   q2:1,   q3:2};
+    const removed = {};
+
+    function updateTotals(){
+      let sub = 0;
+      ['q1','q2','q3'].forEach(k => { if(!removed[k]) sub += prices[k] * qtys[k]; });
+      document.getElementById('subtotal').textContent = '$' + sub;
+      document.getElementById('total').textContent    = '$' + sub;
+    }
+
+    function changeQty(id, delta){
+      const newQ = Math.max(1, qtys[id] + delta);
+      qtys[id] = newQ;
+      document.getElementById(id).textContent = newQ;
+      // update price display
+      const priceId = 'p' + id.slice(1);
+      document.getElementById(priceId).textContent = '$' + (prices[id] * newQ);
+      updateTotals();
+    }
+
+    function removeItem(itemId, unitPrice){
+      const el = document.getElementById(itemId);
+      if(el){ el.style.display = 'none'; }
+      const qKey = 'q' + itemId.replace('item','');
+      removed[qKey] = true;
+      updateTotals();
+      // Show empty state if all gone
+      const remaining = ['q1','q2','q3'].filter(k => !removed[k]);
+      if(!remaining.length){
+        document.getElementById('emptyState').classList.add('visible');
+        document.getElementById('orderSummary').style.display = 'none';
+      }
+    }
+  </script>
+  <script src="lang.js"></script>
+</body>
+</html>
