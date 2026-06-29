@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMP — Help</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Archivo:wght@500;600;700&display=swap');
+  :root{--olive:#A9B36C;--olive-light:#C2CC8E;--olive-dark:#3A3C1C;--cream:#F0EDD9;--tan:#D8D2BF;--ink:#2A2A1E;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Cormorant Garamond',serif;background:var(--olive);color:var(--ink);min-height:100vh;}
+  header{display:flex;align-items:center;justify-content:space-between;padding:24px 28px 18px;background:var(--olive-light);}
+  .menu-icon{display:flex;flex-direction:column;gap:6px;cursor:pointer;}
+  .menu-icon span{display:block;width:32px;height:3px;background:var(--ink);}
+  .logo a{display:flex;align-items:center;text-decoration:none;font-family:'Archivo',sans-serif;font-weight:700;font-size:1.15rem;color:var(--ink);letter-spacing:0.06em;}
+  .cart{display:flex;align-items:center;gap:6px;font-family:'Archivo',sans-serif;font-weight:600;font-size:1rem;}
+  .cart svg{width:24px;height:22px;}
+  .page-title{padding:48px 28px 12px;font-style:italic;font-weight:500;font-size:3.4rem;line-height:1.05;}
+  .help-body{padding:0 28px 60px;max-width:640px;}
+  .faq-item{border-bottom:1px solid var(--tan);padding:22px 0;}
+  .faq-q{font-family:'Archivo',sans-serif;font-weight:600;font-size:0.95rem;letter-spacing:0.03em;margin-bottom:8px;}
+  .faq-a{font-size:1.25rem;line-height:1.5;opacity:0.8;}
+  .contact-link{display:inline-block;margin-top:36px;font-style:italic;font-size:1.3rem;color:var(--ink);text-underline-offset:3px;}
+  .menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,0);z-index:100;pointer-events:none;transition:background 0.3s ease;}
+  .menu-overlay.open{background:rgba(0,0,0,0.45);pointer-events:all;}
+  .menu-drawer{position:fixed;top:0;left:0;width:300px;max-width:85vw;height:100vh;background:var(--cream);z-index:101;transform:translateX(-100%);transition:transform 0.32s cubic-bezier(.4,0,.2,1);overflow-y:auto;display:flex;flex-direction:column;}
+  .menu-drawer.open{transform:translateX(0);}
+  .menu-top{display:flex;align-items:center;justify-content:space-between;padding:22px 28px 18px;border-bottom:1px solid var(--tan);}
+  .menu-top-label{font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);}
+  .menu-close-btn{background:none;border:none;cursor:pointer;font-size:1.4rem;line-height:1;color:var(--ink);display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;transition:background 0.15s ease;}
+  .menu-close-btn:hover{background:var(--tan);}
+  .menu-section{font-family:'Archivo',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);opacity:0.45;padding:20px 28px 6px;}
+  .menu-nav a{display:block;padding:11px 28px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.45rem;color:var(--ink);text-decoration:none;transition:background 0.15s ease;}
+  .menu-nav a:hover{background:var(--tan);}
+  .menu-divider{height:1px;background:var(--tan);margin:8px 0;}
+  .menu-lang-wrap{padding:10px 28px;}
+  .menu-lang-select{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.4rem;background:none;border:none;color:var(--ink);cursor:pointer;width:100%;padding:2px 0;-webkit-appearance:none;appearance:none;}
+</style>
+</head>
+<body>
+  <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+  <nav class="menu-drawer" id="menuDrawer">
+    <div class="menu-top">
+      <span class="menu-top-label">Menu</span>
+      <button class="menu-close-btn" onclick="closeMenu()" aria-label="Close menu">&#x2715;</button>
+    </div>
+    <div class="menu-section">Collections</div>
+    <div class="menu-nav">
+      <a href="peaks-collection.html">Peaks Collection</a>
+      <a href="explorer-collection.html">Explorer Collection</a>
+      <a href="wildlife-collection.html">Wildlife Collection</a>
+      <a href="base-camp-collection.html">Base Camp</a>
+      <a href="sea-collection.html">Sea Collection</a>
+    </div>
+    <div class="menu-divider"></div>
+    <div class="menu-nav">
+      <a href="explore.html">Explore</a>
+      <a href="shop.html">Shop All</a>
+      <a href="new-arrivals.html">New Arrivals</a>
+      <a href="help.html">Help</a>
+    </div>
+    <div class="menu-divider"></div>
+    <div class="menu-section">Language</div>
+    <div class="menu-lang-wrap">
+      <select class="menu-lang-select" onchange="document.documentElement.lang=this.value">
+        <option value="en">&#127760; English</option>
+        <option value="es">&#127760; Espa&#241;ol</option>
+        <option value="fr">&#127760; Fran&#231;ais</option>
+        <option value="de">&#127760; Deutsch</option>
+        <option value="ja">&#127760; &#26085;&#26412;&#35486;</option>
+        <option value="zh">&#127760; &#20013;&#25991;</option>
+      </select>
+    </div>
+  </nav>
+
+  <header>
+    <div class="menu-icon" onclick="openMenu()" role="button" aria-label="Open menu" tabindex="0">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="logo"><a href="index.html">CAMP</a></div>
+    <div class="cart">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      Cart
+    </div>
+  </header>
+
+  <div class="page-title">Help</div>
+  <div class="help-body">
+    <div class="faq-item">
+      <div class="faq-q">How do I place an order?</div>
+      <div class="faq-a">Browse any collection, select your item, choose your size, and add it to your cart. Proceed to checkout when you're ready.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What is your return policy?</div>
+      <div class="faq-a">We accept returns within 30 days of purchase on unworn, unwashed items with original tags attached.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How long does shipping take?</div>
+      <div class="faq-a">Standard shipping takes 5–7 business days. Expedited options are available at checkout.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Do you ship internationally?</div>
+      <div class="faq-a">Yes — we ship to most countries. Duties and taxes may apply depending on your location.</div>
+    </div>
+    <a class="contact-link" href="contact.html">Still need help? Contact us &rarr;</a>
+  </div>
+
+  <script>
+    function openMenu(){document.getElementById('menuDrawer').classList.add('open');document.getElementById('menuOverlay').classList.add('open');document.body.style.overflow='hidden';}
+    function closeMenu(){document.getElementById('menuDrawer').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open');document.body.style.overflow='';}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
+  </script>
+</body>
+</html>
