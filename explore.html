@@ -1,49 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>CAMP — Trails</title>
-  <link rel="stylesheet" href="explore.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMP — Explore</title>
+<link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="explore-body">
+  <div class="explore-page">
 
-<div id="scene">
-  <!-- Trail sketch background -->
-  <img src="images/trails.jpeg" alt="Trail Map" class="map">
+    <a href="index.html" class="back-arrow" aria-label="Back to map">
+      <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+    </a>
 
-  <!-- Hoverable trails -->
-  <a href="about.html" class="trail about" aria-label="About"></a>
-  <a href="social.html" class="trail social" aria-label="Social"></a>
-  <a href="contact.html" class="trail contact" aria-label="Contact"></a>
+    <div class="trail-wrapper">
+      <img src="images/trail-day.png" alt="Camp Trail" class="trail-img" id="trailImg">
 
-  <!-- Endpoints -->
+      <!-- Lookout tower → Contact -->
+      <a href="contact.html" class="hotspot tower" style="left:70%; top:18%; width:25%; height:35%;" data-name="Lookout"></a>
 
-  <!-- Cliff -->
-  <div class="endpoint cliff">
-    <div class="cliff-face"></div>
-    <span>ABOUT</span>
+      <!-- Campfire → Social -->
+      <a href="#" class="hotspot campfire" style="left:36%; top:68%; width:14%; height:16%;" data-name="Social"></a>
+
+      <!-- Cliff → About -->
+      <a href="#" class="hotspot cliff" style="left:5%; top:30%; width:18%; height:28%;" data-name="About"></a>
+    </div>
+
+    <button class="day-night-toggle" id="dnToggle" aria-label="Toggle day/night">
+      <svg id="dnIcon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+        <path d="M12 3a9 9 0 1 0 9 9 9 9 0 0 1-9-9z"/>
+      </svg>
+      <span id="dnLabel">Night</span>
+    </button>
+
+    <div class="label-tag" id="labelTag"></div>
   </div>
 
-  <!-- Campground -->
-  <div class="endpoint campground">
-    <img src="images/camp-logo.png" class="tent t1">
-    <img src="images/camp-logo.png" class="tent t2">
-    <img src="images/camp-logo.png" class="tent t3">
-    <img src="images/camp-logo.png" class="tent t4">
-    <span>SOCIAL</span>
-  </div>
-
-  <!-- Watchtower -->
-  <div class="endpoint tower">
-    <div class="watchtower"></div>
-    <span>CONTACT</span>
-  </div>
-</div>
-
-<img src="trails.jpeg">
-<img src="camp-logo.png">
-
-
-<script src="explore.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
