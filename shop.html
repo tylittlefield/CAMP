@@ -43,28 +43,28 @@
   <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
   <nav class="menu-drawer" id="menuDrawer">
     <div class="menu-top">
-      <span class="menu-top-label">Menu</span>
+      <span class="menu-top-label" data-i18n="menu">Menu</span>
       <button class="menu-close-btn" onclick="closeMenu()" aria-label="Close menu">&#x2715;</button>
     </div>
-    <div class="menu-section">Collections</div>
+    <div class="menu-section" data-i18n="collections">Collections</div>
     <div class="menu-nav">
-      <a href="peaks-collection.html">Peaks Collection</a>
-      <a href="explorer-collection.html">Explorer Collection</a>
-      <a href="wildlife-collection.html">Wildlife Collection</a>
-      <a href="base-camp-collection.html">Base Camp</a>
-      <a href="sea-collection.html">Sea Collection</a>
+      <a href="peaks-collection.html" data-i18n="peaks">Peaks Collection</a>
+      <a href="explorer-collection.html" data-i18n="explorer">Explorer Collection</a>
+      <a href="wildlife-collection.html" data-i18n="wildlife">Wildlife Collection</a>
+      <a href="base-camp-collection.html" data-i18n="basecamp">Base Camp</a>
+      <a href="sea-collection.html" data-i18n="sea">Sea Collection</a>
     </div>
     <div class="menu-divider"></div>
     <div class="menu-nav">
-      <a href="explore.html">Explore</a>
-      <a href="shop.html">Shop All</a>
-      <a href="new-arrivals.html">New Arrivals</a>
-      <a href="help.html">Help</a>
+      <a href="explore.html" data-i18n="explore">Explore</a>
+      <a href="shop.html" data-i18n="shop-all">Shop All</a>
+      <a href="new-arrivals.html" data-i18n="new-arrivals">New Arrivals</a>
+      <a href="help.html" data-i18n="help">Help</a>
     </div>
     <div class="menu-divider"></div>
-    <div class="menu-section">Language</div>
+    <div class="menu-section" data-i18n="language">Language</div>
     <div class="menu-lang-wrap">
-      <select class="menu-lang-select" onchange="document.documentElement.lang=this.value">
+      <select class="menu-lang-select" onchange="setLanguage(this.value)">
         <option value="en">&#127760; English</option>
         <option value="es">&#127760; Espa&#241;ol</option>
         <option value="fr">&#127760; Fran&#231;ais</option>
@@ -79,23 +79,23 @@
     <div class="menu-icon" onclick="openMenu()" role="button" aria-label="Open menu" tabindex="0">
       <span></span><span></span><span></span>
     </div>
-    <div class="logo"><a href="index.html"><img src="images/camp-logo.png" alt="CAMP"></a></div>
+    <div class="logo"><a href="index.html"><img src="images/camp-logo-full.png" alt="CAMP"></a></div>
     <div class="cart">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
       Cart
     </div>
   </header>
 
-  <div class="page-title">Shop All</div>
-  <div class="page-sub">Browse every collection.</div>
+  <div class="page-title" data-i18n="shop-title">Shop All</div>
+  <div class="page-sub" data-i18n="shop-sub">Browse every collection.</div>
 
   <div class="collections-list">
-    <a class="coll-card" href="peaks-collection.html">Peaks</a>
-    <a class="coll-card" href="explorer-collection.html">Explorer</a>
-    <a class="coll-card" href="wildlife-collection.html">Wildlife</a>
-    <a class="coll-card" href="base-camp-collection.html">Base Camp</a>
-    <a class="coll-card" href="sea-collection.html">Sea</a>
-    <a class="coll-card" href="new-arrivals.html">New Arrivals</a>
+    <a class="coll-card" href="peaks-collection.html" data-i18n="card-peaks">Peaks</a>
+    <a class="coll-card" href="explorer-collection.html" data-i18n="card-explorer">Explorer</a>
+    <a class="coll-card" href="wildlife-collection.html" data-i18n="card-wildlife">Wildlife</a>
+    <a class="coll-card" href="base-camp-collection.html" data-i18n="card-basecamp">Base Camp</a>
+    <a class="coll-card" href="sea-collection.html" data-i18n="card-sea">Sea</a>
+    <a class="coll-card" href="new-arrivals.html" data-i18n="card-na">New Arrivals</a>
   </div>
 
   <script>
@@ -103,5 +103,6 @@
     function closeMenu(){document.getElementById('menuDrawer').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open');document.body.style.overflow='';}
     document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
   </script>
+<script src="lang.js"></script>
 </body>
 </html>

@@ -41,28 +41,28 @@
   <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
   <nav class="menu-drawer" id="menuDrawer">
     <div class="menu-top">
-      <span class="menu-top-label">Menu</span>
+      <span class="menu-top-label" data-i18n="menu">Menu</span>
       <button class="menu-close-btn" onclick="closeMenu()" aria-label="Close menu">&#x2715;</button>
     </div>
-    <div class="menu-section">Collections</div>
+    <div class="menu-section" data-i18n="collections">Collections</div>
     <div class="menu-nav">
-      <a href="peaks-collection.html">Peaks Collection</a>
-      <a href="explorer-collection.html">Explorer Collection</a>
-      <a href="wildlife-collection.html">Wildlife Collection</a>
-      <a href="base-camp-collection.html">Base Camp</a>
-      <a href="sea-collection.html">Sea Collection</a>
+      <a href="peaks-collection.html" data-i18n="peaks">Peaks Collection</a>
+      <a href="explorer-collection.html" data-i18n="explorer">Explorer Collection</a>
+      <a href="wildlife-collection.html" data-i18n="wildlife">Wildlife Collection</a>
+      <a href="base-camp-collection.html" data-i18n="basecamp">Base Camp</a>
+      <a href="sea-collection.html" data-i18n="sea">Sea Collection</a>
     </div>
     <div class="menu-divider"></div>
     <div class="menu-nav">
-      <a href="explore.html">Explore</a>
-      <a href="shop.html">Shop All</a>
-      <a href="new-arrivals.html">New Arrivals</a>
-      <a href="help.html">Help</a>
+      <a href="explore.html" data-i18n="explore">Explore</a>
+      <a href="shop.html" data-i18n="shop-all">Shop All</a>
+      <a href="new-arrivals.html" data-i18n="new-arrivals">New Arrivals</a>
+      <a href="help.html" data-i18n="help">Help</a>
     </div>
     <div class="menu-divider"></div>
-    <div class="menu-section">Language</div>
+    <div class="menu-section" data-i18n="language">Language</div>
     <div class="menu-lang-wrap">
-      <select class="menu-lang-select" onchange="document.documentElement.lang=this.value">
+      <select class="menu-lang-select" onchange="setLanguage(this.value)">
         <option value="en">&#127760; English</option>
         <option value="es">&#127760; Espa&#241;ol</option>
         <option value="fr">&#127760; Fran&#231;ais</option>
@@ -84,25 +84,25 @@
     </div>
   </header>
 
-  <div class="page-title">Help</div>
+  <div class="page-title" data-i18n="help-title">Help</div>
   <div class="help-body">
     <div class="faq-item">
-      <div class="faq-q">How do I place an order?</div>
-      <div class="faq-a">Browse any collection, select your item, choose your size, and add it to your cart. Proceed to checkout when you're ready.</div>
+      <div class="faq-q" data-i18n="faq-q1">How do I place an order?</div>
+      <div class="faq-a" data-i18n="faq-a1">Browse any collection, select your item, choose your size, and add it to your cart. Proceed to checkout when you're ready.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">What is your return policy?</div>
-      <div class="faq-a">We accept returns within 30 days of purchase on unworn, unwashed items with original tags attached.</div>
+      <div class="faq-q" data-i18n="faq-q2">What is your return policy?</div>
+      <div class="faq-a" data-i18n="faq-a2">We accept returns within 30 days of purchase on unworn, unwashed items with original tags attached.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">How long does shipping take?</div>
-      <div class="faq-a">Standard shipping takes 5–7 business days. Expedited options are available at checkout.</div>
+      <div class="faq-q" data-i18n="faq-q3">How long does shipping take?</div>
+      <div class="faq-a" data-i18n="faq-a3">Standard shipping takes 5–7 business days. Expedited options are available at checkout.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">Do you ship internationally?</div>
-      <div class="faq-a">Yes — we ship to most countries. Duties and taxes may apply depending on your location.</div>
+      <div class="faq-q" data-i18n="faq-q4">Do you ship internationally?</div>
+      <div class="faq-a" data-i18n="faq-a4">Yes — we ship to most countries. Duties and taxes may apply depending on your location.</div>
     </div>
-    <a class="contact-link" href="contact.html">Still need help? Contact us &rarr;</a>
+    <a class="contact-link" href="contact.html" data-i18n="help-contact">Still need help? Contact us →</a>
   </div>
 
   <script>
@@ -110,5 +110,6 @@
     function closeMenu(){document.getElementById('menuDrawer').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open');document.body.style.overflow='';}
     document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
   </script>
+<script src="lang.js"></script>
 </body>
 </html>

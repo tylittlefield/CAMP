@@ -366,33 +366,33 @@
   <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
   <nav class="menu-drawer" id="menuDrawer" aria-label="Site navigation">
     <div class="menu-top">
-      <span class="menu-top-label">Menu</span>
+      <span class="menu-top-label" data-i18n="menu">Menu</span>
       <button class="menu-close-btn" onclick="closeMenu()" aria-label="Close menu">&#x2715;</button>
     </div>
 
-    <div class="menu-section">Collections</div>
+    <div class="menu-section" data-i18n="collections">Collections</div>
     <div class="menu-nav">
-      <a href="peaks-collection.html">Peaks Collection</a>
-      <a href="explorer-collection.html">Explorer Collection</a>
-      <a href="wildlife-collection.html">Wildlife Collection</a>
-      <a href="base-camp-collection.html">Base Camp</a>
-      <a href="sea-collection.html">Sea Collection</a>
+      <a href="peaks-collection.html" data-i18n="peaks">Peaks Collection</a>
+      <a href="explorer-collection.html" data-i18n="explorer">Explorer Collection</a>
+      <a href="wildlife-collection.html" data-i18n="wildlife">Wildlife Collection</a>
+      <a href="base-camp-collection.html" data-i18n="basecamp">Base Camp</a>
+      <a href="sea-collection.html" data-i18n="sea">Sea Collection</a>
     </div>
 
     <div class="menu-divider"></div>
 
     <div class="menu-nav">
-      <a href="explore.html">Explore</a>
-      <a href="shop.html">Shop All</a>
-      <a href="new-arrivals.html">New Arrivals</a>
-      <a href="help.html">Help</a>
+      <a href="explore.html" data-i18n="explore">Explore</a>
+      <a href="shop.html" data-i18n="shop-all">Shop All</a>
+      <a href="new-arrivals.html" data-i18n="new-arrivals">New Arrivals</a>
+      <a href="help.html" data-i18n="help">Help</a>
     </div>
 
     <div class="menu-divider"></div>
 
-    <div class="menu-section">Language</div>
+    <div class="menu-section" data-i18n="language">Language</div>
     <div class="menu-lang-wrap">
-      <select class="menu-lang-select" onchange="document.documentElement.lang=this.value" aria-label="Select language">
+      <select class="menu-lang-select" onchange="setLanguage(this.value)" aria-label="Select language">
         <option value="en">&#127760; English</option>
         <option value="es">&#127760; Espa&#241;ol</option>
         <option value="fr">&#127760; Fran&#231;ais</option>
@@ -503,5 +503,6 @@
       if(e.key==='Escape') closeMenu();
     });
   </script>
+<script src="lang.js"></script>
 </body>
 </html>

@@ -249,7 +249,7 @@
       </svg>
       Back
     </a>
-    <div class="logo"><a href="index.html"><img src="images/camp-logo.png" alt="CAMP"></a></div>
+    <div class="logo"><a href="index.html"><img src="images/camp-logo-full.png" alt="CAMP"></a></div>
     <div style="width:60px"></div>
   </div>
 
@@ -257,31 +257,31 @@
     <div class="card">
 
       <div class="card-logo">
-        <img src="images/camp-logo.png" alt="CAMP logo">
+        <img src="images/camp-logo-full.png" alt="CAMP logo">
       </div>
-      <div class="card-title">Welcome back.</div>
-      <div class="card-sub">Sign in to your CAMP account.</div>
+      <div class="card-title" data-i18n="signin-welcome">Welcome back.</div>
+      <div class="card-sub" data-i18n="signin-sub">Sign in to your CAMP account.</div>
 
       <form onsubmit="return false;">
         <div class="field">
-          <label for="email">Email</label>
+          <label for="email" data-i18n="signin-email">Email</label>
           <input type="email" id="email" placeholder="you@example.com" required autocomplete="email">
         </div>
 
         <div class="field">
           <div class="field-row">
-            <label for="password">Password</label>
-            <a href="#" class="forgot-link">Forgot password?</a>
+            <label for="password" data-i18n="signin-password">Password</label>
+            <a href="#" class="forgot-link" data-i18n="signin-forgot">Forgot password?</a>
           </div>
           <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
         </div>
 
-        <button type="submit" class="submit-btn">Sign In</button>
+        <button type="submit" class="submit-btn" data-i18n="signin-btn">Sign In</button>
       </form>
 
-      <div class="divider">or</div>
+      <div class="divider" data-i18n="signin-or">or</div>
 
-      <a href="#" class="create-btn">Create an Account</a>
+      <a href="#" class="create-btn" data-i18n="signin-create">Create an Account</a>
 
       <div class="card-foot">
         By signing in you agree to our<br>
@@ -291,5 +291,6 @@
     </div>
   </div>
 
+<script src="lang.js"></script>
 </body>
 </html>
