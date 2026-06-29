@@ -13,7 +13,8 @@
   .menu-icon{display:flex;flex-direction:column;gap:6px;cursor:pointer;}
   .menu-icon span{display:block;width:32px;height:3px;background:var(--ink);}
   .logo{display:flex;align-items:center;}
-  .logo a{display:flex;align-items:center;text-decoration:none;font-family:'Archivo',sans-serif;font-weight:700;font-size:1.15rem;color:var(--ink);letter-spacing:0.06em;}
+  .logo a{display:flex;align-items:center;text-decoration:none;}
+  .logo img{height:36px;width:auto;display:block;}
   .cart{display:flex;align-items:center;gap:6px;font-family:'Archivo',sans-serif;font-weight:600;font-size:1rem;}
   .cart svg{width:24px;height:22px;}
   .page-title{padding:48px 28px 12px;font-style:italic;font-weight:500;font-size:3.4rem;line-height:1.05;}
@@ -78,7 +79,7 @@
     <div class="menu-icon" onclick="openMenu()" role="button" aria-label="Open menu" tabindex="0">
       <span></span><span></span><span></span>
     </div>
-    <div class="logo"><a href="index.html">CAMP</a></div>
+    <div class="logo"><a href="index.html"><img src="images/camp-logo.png" alt="CAMP"></a></div>
     <div class="cart">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
       Cart

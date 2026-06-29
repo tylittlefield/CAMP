@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMP — Sign In</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Archivo:wght@400;500;600;700&display=swap');
+
+  :root {
+    --olive:       #A9B36C;
+    --olive-light: #C2CC8E;
+    --olive-dark:  #3A3C1C;
+    --cream:       #F0EDD9;
+    --tan:         #D8D2BF;
+    --ink:         #2A2A1E;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    font-family: 'Cormorant Garamond', serif;
+    background: var(--olive);
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* ── top bar ── */
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 28px;
+    background: var(--olive-light);
+  }
+
+  .top-bar a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--ink);
+    font-family: 'Archivo', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    gap: 6px;
+  }
+
+  .top-bar a svg { flex-shrink: 0; }
+
+  .top-bar .logo img {
+    height: 32px;
+    width: auto;
+  }
+
+  /* ── card ── */
+  .card-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 20px;
+  }
+
+  .card {
+    background: var(--cream);
+    border-radius: 6px;
+    width: 100%;
+    max-width: 420px;
+    padding: 48px 40px 44px;
+  }
+
+  .card-logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .card-logo img {
+    height: 52px;
+    width: auto;
+  }
+
+  .card-title {
+    text-align: center;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 2.2rem;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+
+  .card-sub {
+    text-align: center;
+    font-size: 1.1rem;
+    opacity: 0.55;
+    margin-bottom: 36px;
+  }
+
+  /* ── form ── */
+  .field {
+    margin-bottom: 20px;
+  }
+
+  .field label {
+    display: block;
+    font-family: 'Archivo', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+    opacity: 0.65;
+  }
+
+  .field input {
+    width: 100%;
+    padding: 13px 14px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    background: #fff;
+    border: 1.5px solid var(--tan);
+    border-radius: 3px;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .field input:focus {
+    border-color: var(--olive-dark);
+  }
+
+  .field-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 7px;
+  }
+
+  .field-row label {
+    margin-bottom: 0;
+  }
+
+  .forgot-link {
+    font-size: 1rem;
+    color: var(--olive-dark);
+    text-decoration: none;
+    font-style: italic;
+    opacity: 0.75;
+    transition: opacity 0.15s;
+  }
+
+  .forgot-link:hover { opacity: 1; }
+
+  .submit-btn {
+    width: 100%;
+    margin-top: 28px;
+    padding: 16px;
+    background: var(--olive-dark);
+    color: var(--cream);
+    font-family: 'Archivo', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+  }
+
+  .submit-btn:hover {
+    background: #2e3010;
+    transform: translateY(-1px);
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 28px 0;
+    color: var(--ink);
+    opacity: 0.3;
+    font-size: 0.9rem;
+  }
+
+  .divider::before,
+  .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--tan);
+  }
+
+  .create-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background: transparent;
+    border: 1.5px solid var(--olive-dark);
+    border-radius: 3px;
+    color: var(--ink);
+    font-family: 'Archivo', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .create-btn:hover { background: var(--tan); }
+
+  /* ── footer note ── */
+  .card-foot {
+    text-align: center;
+    margin-top: 28px;
+    font-size: 1rem;
+    opacity: 0.45;
+    line-height: 1.6;
+  }
+
+  .card-foot a {
+    color: var(--ink);
+    text-underline-offset: 2px;
+  }
+
+  /* ── responsive ── */
+  @media (max-width: 480px) {
+    .card { padding: 36px 24px 32px; }
+    .card-title { font-size: 1.9rem; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a href="javascript:history.back()">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      Back
+    </a>
+    <div class="logo"><a href="index.html"><img src="images/camp-logo.png" alt="CAMP"></a></div>
+    <div style="width:60px"></div>
+  </div>
+
+  <div class="card-wrap">
+    <div class="card">
+
+      <div class="card-logo">
+        <img src="images/camp-logo.png" alt="CAMP logo">
+      </div>
+      <div class="card-title">Welcome back.</div>
+      <div class="card-sub">Sign in to your CAMP account.</div>
+
+      <form onsubmit="return false;">
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="you@example.com" required autocomplete="email">
+        </div>
+
+        <div class="field">
+          <div class="field-row">
+            <label for="password">Password</label>
+            <a href="#" class="forgot-link">Forgot password?</a>
+          </div>
+          <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+
+        <button type="submit" class="submit-btn">Sign In</button>
+      </form>
+
+      <div class="divider">or</div>
+
+      <a href="#" class="create-btn">Create an Account</a>
+
+      <div class="card-foot">
+        By signing in you agree to our<br>
+        <a href="#">Terms of Service</a> &amp; <a href="#">Privacy Policy</a>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
