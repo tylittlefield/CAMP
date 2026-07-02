@@ -174,6 +174,13 @@
     document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
 
     var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwo2dYD00ZJG98qLknR4ePC73PXQ3UdRWXtJFraN8sVEYQIx-cibBSv34oR7L7C1PW-/exec';
+
+    // Pre-fill newsletter with signed-in email
+    (function() {
+      var user = localStorage.getItem('camp-user');
+      if (user) document.getElementById('nlEmail').value = user;
+    })();
+
     function submitNewsletter() {
       var input = document.getElementById('nlEmail');
       var email = input.value.trim();
@@ -181,8 +188,8 @@
         input.focus();
         return;
       }
+      localStorage.setItem('camp-user', email);
       fetch(SHEETS_URL + '?email=' + encodeURIComponent(email)).catch(function(){});
-      input.value = '';
       document.getElementById('nlThanks').classList.add('visible');
     }
   </script>
