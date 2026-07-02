@@ -120,13 +120,20 @@
     </div>
   </section>
 
-  <!-- ── What's New Footer ── -->
+  <!-- ── Newsletter Section ── -->
+  <section class="home-newsletter">
+    <div class="nl-inner">
+      <div class="nl-heading">What's New?</div>
+      <div class="nl-sub">Sign up to receive news and updates.</div>
+      <input class="nl-email" type="email" id="nlEmail" placeholder="Email Address">
+      <button class="nl-btn" onclick="submitNewsletter()">Sign Up</button>
+      <div class="nl-thanks" id="nlThanks">Thanks for signing up.</div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
   <footer class="home-footer">
     <div class="home-inner">
-      <div class="home-footer-head">
-        <div class="home-footer-eyebrow">What's New</div>
-        <div class="home-footer-title">Stay in the loop.</div>
-      </div>
       <div class="home-footer-cols">
         <div class="home-footer-col">
           <div class="home-footer-label">Collections</div>
@@ -165,6 +172,19 @@
     function openMenu(){document.getElementById('menuDrawer').classList.add('open');document.getElementById('menuOverlay').classList.add('open');document.body.style.overflow='hidden';}
     function closeMenu(){document.getElementById('menuDrawer').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open');document.body.style.overflow='';}
     document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
+
+    var SHEETS_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID_HERE/exec';
+    function submitNewsletter() {
+      var input = document.getElementById('nlEmail');
+      var email = input.value.trim();
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        input.focus();
+        return;
+      }
+      fetch(SHEETS_URL + '?email=' + encodeURIComponent(email), {mode: 'no-cors'}).catch(function(){});
+      input.value = '';
+      document.getElementById('nlThanks').classList.add('visible');
+    }
   </script>
   <script src="lang.js"></script>
 </body>

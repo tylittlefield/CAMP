@@ -334,6 +334,8 @@
     if (!passMatch) valid = false;
 
     if (valid) {
+      var userEmail = document.getElementById('email').value.trim();
+      localStorage.setItem('camp-user', userEmail);
       document.getElementById('createForm').style.display = 'none';
       document.querySelector('.divider').style.display = 'none';
       document.querySelector('.signin-btn').style.display = 'none';

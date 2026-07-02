@@ -263,62 +263,9 @@
     <!-- Left: items -->
     <div class="cart-items">
       <div class="cart-title">Your Cart</div>
+      <div id="cartItemsContainer"></div>
 
-      <!-- Sample item 1 -->
-      <div class="cart-item" id="item1">
-        <div class="item-img">&#9651;</div>
-        <div class="item-details">
-          <div class="item-name">Ridge Shell Jacket</div>
-          <div class="item-meta">Peaks Collection<br>Size: M &nbsp;·&nbsp; Slate</div>
-          <div class="item-qty">
-            <button class="qty-btn" onclick="changeQty('q1',-1)">&#8722;</button>
-            <span class="qty-num" id="q1">1</span>
-            <button class="qty-btn" onclick="changeQty('q1',1)">&#43;</button>
-          </div>
-        </div>
-        <div style="text-align:right;">
-          <div class="item-price" id="p1">$198</div>
-          <button class="item-remove" onclick="removeItem('item1',198)">Remove</button>
-        </div>
-      </div>
-
-      <!-- Sample item 2 -->
-      <div class="cart-item" id="item2">
-        <div class="item-img">&#127754;</div>
-        <div class="item-details">
-          <div class="item-name">Harbor Crew Fleece</div>
-          <div class="item-meta">Sea Collection<br>Size: L &nbsp;·&nbsp; Navy</div>
-          <div class="item-qty">
-            <button class="qty-btn" onclick="changeQty('q2',-1)">&#8722;</button>
-            <span class="qty-num" id="q2">1</span>
-            <button class="qty-btn" onclick="changeQty('q2',1)">&#43;</button>
-          </div>
-        </div>
-        <div style="text-align:right;">
-          <div class="item-price" id="p2">$124</div>
-          <button class="item-remove" onclick="removeItem('item2',124)">Remove</button>
-        </div>
-      </div>
-
-      <!-- Sample item 3 -->
-      <div class="cart-item" id="item3">
-        <div class="item-img">&#127795;</div>
-        <div class="item-details">
-          <div class="item-name">Trail Cap</div>
-          <div class="item-meta">Explorer Collection<br>One Size &nbsp;·&nbsp; Forest</div>
-          <div class="item-qty">
-            <button class="qty-btn" onclick="changeQty('q3',-1)">&#8722;</button>
-            <span class="qty-num" id="q3">2</span>
-            <button class="qty-btn" onclick="changeQty('q3',1)">&#43;</button>
-          </div>
-        </div>
-        <div style="text-align:right;">
-          <div class="item-price" id="p3">$84</div>
-          <button class="item-remove" onclick="removeItem('item3',42)">Remove</button>
-        </div>
-      </div>
-
-      <!-- Empty state (shown when all items removed) -->
+      <!-- Empty state -->
       <div class="cart-empty" id="emptyState">
         <div class="empty-icon">&#128722;</div>
         <div class="empty-title">Your cart is empty.</div>
@@ -328,12 +275,12 @@
     </div>
 
     <!-- Right: summary -->
-    <div class="order-summary" id="orderSummary">
+    <div class="order-summary" id="orderSummary" style="display:none;">
       <div class="summary-title">Order Summary</div>
-      <div class="summary-row"><span>Subtotal</span><span id="subtotal">$406</span></div>
+      <div class="summary-row"><span>Subtotal</span><span id="subtotal">$0</span></div>
       <div class="summary-row"><span>Shipping</span><span>Calculated at checkout</span></div>
       <div class="summary-row"><span>Tax</span><span>Calculated at checkout</span></div>
-      <div class="summary-total"><span>Total</span><span id="total">$406</span></div>
+      <div class="summary-total"><span>Total</span><span id="total">$0</span></div>
       <button class="checkout-btn">Proceed to Checkout</button>
       <a href="shop.html" class="continue-link">Continue shopping</a>
 
@@ -348,46 +295,78 @@
 
   </div>
 
+  <script src="cart.js"></script>
   <script>
     function openMenu(){document.getElementById('menuDrawer').classList.add('open');document.getElementById('menuOverlay').classList.add('open');document.body.style.overflow='hidden';}
     function closeMenu(){document.getElementById('menuDrawer').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open');document.body.style.overflow='';}
     document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
 
-    // Simple cart interactivity
-    const prices = {q1:198, q2:124, q3:42}; // per-unit prices
-    const qtys   = {q1:1,   q2:1,   q3:2};
-    const removed = {};
+    function renderCart() {
+      var items = Cart.getCart();
+      var container = document.getElementById('cartItemsContainer');
+      container.innerHTML = '';
 
-    function updateTotals(){
-      let sub = 0;
-      ['q1','q2','q3'].forEach(k => { if(!removed[k]) sub += prices[k] * qtys[k]; });
-      document.getElementById('subtotal').textContent = '$' + sub;
-      document.getElementById('total').textContent    = '$' + sub;
-    }
-
-    function changeQty(id, delta){
-      const newQ = Math.max(1, qtys[id] + delta);
-      qtys[id] = newQ;
-      document.getElementById(id).textContent = newQ;
-      // update price display
-      const priceId = 'p' + id.slice(1);
-      document.getElementById(priceId).textContent = '$' + (prices[id] * newQ);
-      updateTotals();
-    }
-
-    function removeItem(itemId, unitPrice){
-      const el = document.getElementById(itemId);
-      if(el){ el.style.display = 'none'; }
-      const qKey = 'q' + itemId.replace('item','');
-      removed[qKey] = true;
-      updateTotals();
-      // Show empty state if all gone
-      const remaining = ['q1','q2','q3'].filter(k => !removed[k]);
-      if(!remaining.length){
+      if (!items.length) {
         document.getElementById('emptyState').classList.add('visible');
         document.getElementById('orderSummary').style.display = 'none';
+        return;
       }
+
+      document.getElementById('emptyState').classList.remove('visible');
+      document.getElementById('orderSummary').style.display = '';
+
+      items.forEach(function(item, idx) {
+        var meta = item.collection || '';
+        if (item.size) meta += (meta ? '<br>' : '') + 'Size: ' + item.size;
+        if (item.color) meta += ' &nbsp;·&nbsp; ' + item.color;
+        var div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML =
+          '<div class="item-img">' + (item.emoji || '&#9651;') + '</div>' +
+          '<div class="item-details">' +
+            '<div class="item-name">' + item.name + '</div>' +
+            '<div class="item-meta">' + meta + '</div>' +
+            '<div class="item-qty">' +
+              '<button class="qty-btn" onclick="changeQty(' + idx + ',-1)">&#8722;</button>' +
+              '<span class="qty-num" id="qty-' + idx + '">' + item.qty + '</span>' +
+              '<button class="qty-btn" onclick="changeQty(' + idx + ',1)">&#43;</button>' +
+            '</div>' +
+          '</div>' +
+          '<div style="text-align:right;">' +
+            '<div class="item-price" id="price-' + idx + '">$' + (item.price * item.qty) + '</div>' +
+            '<button class="item-remove" onclick="removeItem(' + idx + ')">Remove</button>' +
+          '</div>';
+        container.appendChild(div);
+      });
+
+      updateTotals();
     }
+
+    function updateTotals() {
+      var items = Cart.getCart();
+      var sub = items.reduce(function(s, i) { return s + i.price * i.qty; }, 0);
+      document.getElementById('subtotal').textContent = '$' + sub;
+      document.getElementById('total').textContent = '$' + sub;
+    }
+
+    function changeQty(idx, delta) {
+      var items = Cart.getCart();
+      var item = items[idx];
+      if (!item) return;
+      var newQty = Math.max(1, item.qty + delta);
+      Cart.updateQty(item.id, item.size, item.color, newQty);
+      renderCart();
+    }
+
+    function removeItem(idx) {
+      var items = Cart.getCart();
+      var item = items[idx];
+      if (!item) return;
+      Cart.removeFromCart(item.id, item.size, item.color);
+      renderCart();
+    }
+
+    renderCart();
   </script>
   <script src="lang.js"></script>
 </body>
