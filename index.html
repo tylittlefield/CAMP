@@ -181,7 +181,7 @@
         input.focus();
         return;
       }
-      fetch(SHEETS_URL + '?email=' + encodeURIComponent(email), {mode: 'no-cors'}).catch(function(){});
+      fetch(SHEETS_URL + '?email=' + encodeURIComponent(email)).catch(function(){});
       input.value = '';
       document.getElementById('nlThanks').classList.add('visible');
     }
