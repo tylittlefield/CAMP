@@ -281,7 +281,7 @@
 
       <div class="divider" data-i18n="signin-or">or</div>
 
-      <a href="#" class="create-btn" data-i18n="signin-create">Create an Account</a>
+      <a href="create-account.html" class="create-btn" data-i18n="signin-create">Create an Account</a>
 
       <div class="card-foot">
         By signing in you agree to our<br>
@@ -291,6 +291,27 @@
     </div>
   </div>
 
+<script>
+  document.querySelector('form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var email = document.getElementById('email').value.trim();
+    var pass  = document.getElementById('password').value;
+    if (!email || !pass) return;
+    var btn = this.querySelector('.submit-btn');
+    btn.textContent = 'Signing in…';
+    btn.disabled = true;
+    setTimeout(function() {
+      document.querySelector('.card').innerHTML = `
+        <div style="text-align:center;padding:40px 0;">
+          <div style="font-size:2rem;margin-bottom:16px;">&#9651;</div>
+          <div style="font-style:italic;font-size:2rem;margin-bottom:8px;">Welcome back.</div>
+          <div style="font-size:1.1rem;opacity:0.6;margin-bottom:28px;">You're signed in.</div>
+          <a href="index.html" style="display:inline-block;padding:14px 36px;background:var(--olive-dark);color:var(--cream);font-family:Archivo,sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;border-radius:3px;">Back to Map</a>
+        </div>
+      `;
+    }, 800);
+  });
+</script>
 <script src="lang.js"></script>
 </body>
 </html>

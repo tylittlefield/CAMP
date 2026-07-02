@@ -14,7 +14,7 @@
       <span class="map-menu-top-label" data-i18n="menu">Menu</span>
       <button class="map-menu-close-btn" onclick="closeMenu()" aria-label="Close menu">&#x2715;</button>
     </div>
-    <div class="map-menu-section" data-i18n="collections">Collections</div>
+    <a href="shop.html" class="map-menu-section" data-i18n="collections" style="display:block;text-decoration:none;cursor:pointer;">Collections</a>
     <div class="map-menu-nav">
       <a href="peaks-collection.html" data-i18n="peaks">Peaks Collection</a>
       <a href="explorer-collection.html" data-i18n="explorer">Explorer Collection</a>
@@ -89,6 +89,76 @@
     <!-- Label tooltip that follows clicks -->
     <div class="label-tag" id="labelTag"></div>
   </div>
+
+  <!-- ── Shop All Section ── -->
+  <section class="home-section home-shop">
+    <div class="home-inner">
+      <div class="home-eyebrow">Shop</div>
+      <h2 class="home-heading">All Collections</h2>
+      <div class="home-grid">
+        <a href="peaks-collection.html" class="home-card">Peaks</a>
+        <a href="explorer-collection.html" class="home-card">Explorer</a>
+        <a href="wildlife-collection.html" class="home-card">Wildlife</a>
+        <a href="base-camp-collection.html" class="home-card">Base Camp</a>
+        <a href="sea-collection.html" class="home-card">Sea</a>
+        <a href="new-arrivals.html" class="home-card home-card-accent">New Arrivals</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── New Arrivals Section ── -->
+  <section class="home-section home-na">
+    <div class="home-inner">
+      <div class="home-eyebrow">New</div>
+      <h2 class="home-heading">New Arrivals</h2>
+      <p class="home-body">The latest from CAMP — gear and clothing tested where it matters. New pieces added throughout the season.</p>
+      <div class="home-na-placeholder">
+        <span class="home-na-icon">&#9651;</span>
+        <span class="home-na-text">New arrivals coming soon.</span>
+      </div>
+      <a href="new-arrivals.html" class="home-btn">View New Arrivals</a>
+    </div>
+  </section>
+
+  <!-- ── What's New Footer ── -->
+  <footer class="home-footer">
+    <div class="home-inner">
+      <div class="home-footer-head">
+        <div class="home-footer-eyebrow">What's New</div>
+        <div class="home-footer-title">Stay in the loop.</div>
+      </div>
+      <div class="home-footer-cols">
+        <div class="home-footer-col">
+          <div class="home-footer-label">Collections</div>
+          <a href="peaks-collection.html" class="home-footer-link">Peaks</a>
+          <a href="explorer-collection.html" class="home-footer-link">Explorer</a>
+          <a href="wildlife-collection.html" class="home-footer-link">Wildlife</a>
+          <a href="base-camp-collection.html" class="home-footer-link">Base Camp</a>
+          <a href="sea-collection.html" class="home-footer-link">Sea</a>
+        </div>
+        <div class="home-footer-col">
+          <div class="home-footer-label">Discover</div>
+          <a href="new-arrivals.html" class="home-footer-link">New Arrivals</a>
+          <a href="explore.html" class="home-footer-link">Explore</a>
+          <a href="about.html" class="home-footer-link">About</a>
+          <a href="contact.html" class="home-footer-link">Contact</a>
+          <a href="help.html" class="home-footer-link">Help</a>
+        </div>
+        <div class="home-footer-col">
+          <div class="home-footer-label">Follow</div>
+          <a href="https://www.instagram.com/_camp.life?igsh=cnJrZDNqY25hbWNt&utm_source=qr" target="_blank" rel="noopener" class="home-footer-link home-footer-social">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg>
+            Instagram
+          </a>
+          <a href="signin.html" class="home-footer-link">Sign In</a>
+          <a href="create-account.html" class="home-footer-link">Create Account</a>
+        </div>
+      </div>
+      <div class="home-footer-bottom">
+        <span>&#169; 2024 CAMP. Built for the wild.</span>
+      </div>
+    </div>
+  </footer>
 
   <script src="script.js"></script>
   <script>
