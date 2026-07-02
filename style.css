@@ -657,15 +657,25 @@ body {
 
 /* ── Newsletter Section ── */
 .home-newsletter {
-  background: #2A2A1E;
+  background: #2A2A1E url('images/newsletter-bg.jpg') center 30% / cover no-repeat;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 80px 48px;
 }
 
+.home-newsletter::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(42, 42, 30, 0.55);
+}
+
 .home-newsletter .nl-inner {
   max-width: 540px;
+  position: relative;
+  z-index: 1;
 }
 
 .home-newsletter .nl-heading {
