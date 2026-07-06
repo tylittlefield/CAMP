@@ -361,6 +361,24 @@
   }
   .add-to-cart-btn:hover { background: #2e3010; }
   .add-to-cart-btn.added { background: #5a7a2a; }
+
+  /* ─── Reviews ─── */
+  .reviews-section{padding:64px 48px;background:var(--cream);border-top:1px solid var(--tan);}
+  .reviews-heading{font-size:1.8rem;font-style:italic;margin-bottom:8px;}
+  .reviews-sub{font-size:1.1rem;opacity:0.55;margin-bottom:32px;}
+  .reviews-summary{display:flex;align-items:center;gap:20px;margin-bottom:32px;}
+  .reviews-score{font-size:3rem;font-weight:500;line-height:1;}
+  .reviews-stars{color:#A9B36C;font-size:1.4rem;letter-spacing:2px;}
+  .reviews-count{font-size:1rem;opacity:0.5;margin-top:4px;}
+  .review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:32px;}
+  .review-card{background:#fff;border:1.5px solid var(--tan);border-radius:6px;padding:22px 24px;}
+  .review-stars{color:#A9B36C;font-size:1.1rem;letter-spacing:2px;margin-bottom:8px;}
+  .review-title{font-family:'Archivo',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.04em;margin-bottom:8px;}
+  .review-body{font-size:1.1rem;line-height:1.6;opacity:0.8;}
+  .review-author{font-size:0.9rem;opacity:0.45;margin-top:12px;}
+  .review-write-btn{font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:none;border:1.5px solid var(--tan);border-radius:3px;padding:10px 22px;color:var(--ink);cursor:pointer;transition:background 0.15s,border-color 0.15s;}
+  .review-write-btn:hover{background:var(--tan);}
+  @media(max-width:700px){.review-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -489,11 +507,45 @@
   <!-- ===================================================== -->
   <!-- NEWSLETTER / FOREST SECTION                            -->
   <!-- ===================================================== -->
-  <div class="newsletter">
+  
+  <!-- Reviews -->
+  <div class="reviews-section">
+    <div class="reviews-heading">Customer Reviews</div>
+    <div class="reviews-sub">What people are saying about the Wildlife Collection</div>
+    <div class="reviews-summary">
+      <div class="reviews-score">4.8</div>
+      <div>
+        <div class="reviews-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="reviews-count">Based on 124 reviews</div>
+      </div>
+    </div>
+    <div class="review-grid">
+      <div class="review-card">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="review-title">Perfect for the trail</div>
+        <div class="review-body">Wore this on a 4-day backpacking trip through the Cascades. Held up through rain and wind without missing a beat. The fit is exactly right — not too boxy, not too slim.</div>
+        <div class="review-author">Jamie K. &nbsp;·&nbsp; Verified Buyer</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="review-title">Looks good everywhere</div>
+        <div class="review-body">I went straight from camp to dinner in town and didn't feel out of place for a second. The fabric is soft but structured. Really impressed with the quality at this price.</div>
+        <div class="review-author">Alex M. &nbsp;·&nbsp; Verified Buyer</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+        <div class="review-title">Solid construction</div>
+        <div class="review-body">Well made and true to size. I've washed it a dozen times and it still looks new. Only minor note: the collar runs slightly wide, but honestly it grew on me.</div>
+        <div class="review-author">Sam R. &nbsp;·&nbsp; Verified Buyer</div>
+      </div>
+    </div>
+    <button class="review-write-btn" onclick="alert('Review submission coming soon.')">Write a Review</button>
+  </div>
+<div class="newsletter">
     <div class="newsletter-heading">What's New?</div>
     <div class="newsletter-sub">Sign up to receive news and updates.</div>
-    <input class="newsletter-email" type="email" placeholder="Email Address" readonly>
-    <button class="newsletter-btn">Sign Up</button>
+    <input class="newsletter-email" type="email" placeholder="Email Address">
+    <button class="newsletter-btn" onclick="submitCollectionNewsletter()">Sign Up</button>
   </div>
 
   <footer>

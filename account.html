@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMP — My Account</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Archivo:wght@500;600;700&display=swap');
+  :root{--olive:#A9B36C;--olive-light:#C2CC8E;--olive-dark:#3A3C1C;--cream:#F0EDD9;--tan:#D8D2BF;--ink:#2A2A1E;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Cormorant Garamond',serif;background:var(--cream);color:var(--ink);min-height:100vh;}
+  header{display:flex;align-items:center;justify-content:space-between;padding:24px 28px 18px;background:var(--olive-light);}
+  .menu-icon{display:flex;flex-direction:column;gap:6px;cursor:pointer;}
+  .menu-icon span{display:block;width:32px;height:3px;background:var(--ink);}
+  .logo a{display:flex;align-items:center;text-decoration:none;}
+  .logo img{height:34px;width:auto;}
+  .cart-link{display:flex;align-items:center;gap:6px;font-family:'Archivo',sans-serif;font-weight:600;font-size:1rem;text-decoration:none;color:inherit;}
+  .cart-link svg{width:24px;height:22px;}
+
+  .account-wrap{max-width:860px;margin:0 auto;padding:52px 28px 100px;}
+  .account-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:48px;flex-wrap:wrap;gap:16px;}
+  .account-greeting{font-style:italic;font-size:2.8rem;font-weight:400;line-height:1.05;}
+  .account-email{font-size:1.1rem;opacity:0.5;margin-top:6px;}
+  .signout-btn{font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:none;border:1.5px solid var(--tan);border-radius:3px;padding:10px 20px;color:var(--ink);cursor:pointer;transition:background 0.15s,border-color 0.15s;}
+  .signout-btn:hover{background:var(--tan);}
+
+  .section-label{font-family:'Archivo',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;opacity:0.4;margin-bottom:16px;}
+  .account-panel{background:#fff;border:1.5px solid var(--tan);border-radius:6px;padding:28px 32px;margin-bottom:28px;}
+
+  /* Orders */
+  .order-empty{font-style:italic;font-size:1.25rem;opacity:0.5;padding:12px 0;}
+  .order-row{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:16px 0;border-bottom:1px solid var(--tan);}
+  .order-row:last-child{border-bottom:none;}
+  .order-num{font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.08em;}
+  .order-date{font-size:1.05rem;opacity:0.5;margin-top:3px;}
+  .order-total{font-size:1.2rem;font-weight:500;}
+  .order-status{font-family:'Archivo',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:4px 10px;border-radius:99px;background:var(--olive-light);color:var(--olive-dark);}
+
+  /* Address */
+  .addr-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .addr-field{margin-bottom:0;}
+  .addr-field label{display:block;font-family:'Archivo',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;opacity:0.55;margin-bottom:6px;}
+  .addr-field input{width:100%;padding:11px 13px;font-family:'Cormorant Garamond',serif;font-size:1.1rem;background:var(--cream);border:1.5px solid var(--tan);border-radius:3px;color:var(--ink);outline:none;transition:border-color 0.2s;}
+  .addr-field input:focus{border-color:var(--olive-dark);}
+  .addr-full{grid-column:1/-1;}
+  .save-btn{margin-top:18px;padding:12px 28px;background:var(--olive-dark);color:var(--cream);font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;border:none;border-radius:3px;cursor:pointer;transition:background 0.2s;}
+  .save-btn:hover{background:#2e3010;}
+  .save-confirm{font-style:italic;font-size:1.05rem;color:var(--olive-dark);margin-left:12px;opacity:0;transition:opacity 0.3s;}
+  .save-confirm.visible{opacity:1;}
+
+  /* Payment */
+  .payment-empty{font-style:italic;font-size:1.25rem;opacity:0.5;padding:12px 0;}
+  .payment-note{font-size:1.1rem;opacity:0.6;line-height:1.6;}
+
+  /* Quick links */
+  .quick-links{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .quick-link{display:block;padding:18px 20px;background:var(--olive-light);border-radius:4px;text-decoration:none;color:var(--ink);font-style:italic;font-size:1.2rem;transition:background 0.15s;text-align:center;}
+  .quick-link:hover{background:var(--tan);}
+
+  @media(max-width:600px){
+    .addr-grid{grid-template-columns:1fr;}
+    .addr-full{grid-column:1;}
+    .quick-links{grid-template-columns:1fr 1fr;}
+    .order-row{grid-template-columns:1fr auto;}
+    .order-status{display:none;}
+  }
+
+  .menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,0);z-index:100;pointer-events:none;transition:background 0.3s ease;}
+  .menu-overlay.open{background:rgba(0,0,0,0.45);pointer-events:all;}
+  .menu-drawer{position:fixed;top:0;left:0;width:300px;max-width:85vw;height:100vh;background:var(--cream);z-index:101;transform:translateX(-100%);transition:transform 0.32s cubic-bezier(.4,0,.2,1);overflow-y:auto;display:flex;flex-direction:column;}
+  .menu-drawer.open{transform:translateX(0);}
+  .menu-top{display:flex;align-items:center;justify-content:space-between;padding:22px 28px 18px;border-bottom:1px solid var(--tan);}
+  .menu-top-label{font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);}
+  .menu-close-btn{background:none;border:none;cursor:pointer;font-size:1.4rem;line-height:1;color:var(--ink);display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;transition:background 0.15s ease;}
+  .menu-close-btn:hover{background:var(--tan);}
+  .menu-section{font-family:'Archivo',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);opacity:0.45;padding:20px 28px 6px;}
+  .menu-nav a{display:block;padding:11px 28px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.45rem;color:var(--ink);text-decoration:none;transition:background 0.15s ease;}
+  .menu-nav a:hover{background:var(--tan);}
+  .menu-divider{height:1px;background:var(--tan);margin:8px 0;}
+  .menu-lang-wrap{padding:10px 28px;}
+  .menu-lang-select{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.4rem;background:none;border:none;color:var(--ink);cursor:pointer;width:100%;padding:2px 0;-webkit-appearance:none;appearance:none;}
+</style>
+</head>
+<body>
+  <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+  <nav class="menu-drawer" id="menuDrawer">
+    <div class="menu-top">
+      <span class="menu-top-label">Menu</span>
+      <button class="menu-close-btn" onclick="closeMenu()" aria-label="Close menu">&#x2715;</button>
+    </div>
+    <a href="shop.html" class="menu-section" style="display:block;text-decoration:none;cursor:pointer;">Collections</a>
+    <div class="menu-nav">
+      <a href="peaks-collection.html">Peaks Collection</a>
+      <a href="explorer-collection.html">Explorer Collection</a>
+      <a href="wildlife-collection.html">Wildlife Collection</a>
+      <a href="base-camp-collection.html">Base Camp</a>
+      <a href="sea-collection.html">Sea Collection</a>
+    </div>
+    <div class="menu-divider"></div>
+    <div class="menu-section">Map</div>
+    <div class="menu-nav"><a href="index.html">Map</a></div>
+    <div class="menu-divider"></div>
+    <div class="menu-nav">
+      <a href="search.html">Search</a>
+      <a href="explore.html">Explore</a>
+      <a href="lookbook.html">Lookbook</a>
+      <a href="shop.html">Shop All</a>
+      <a href="new-arrivals.html">New Arrivals</a>
+      <a href="about.html">About</a>
+      <a href="help.html">Help</a>
+    </div>
+    <div class="menu-divider"></div>
+    <div class="menu-section">Account</div>
+    <div class="menu-nav">
+      <a href="account.html">My Account</a>
+      <a href="#" onclick="signOut()">Sign Out</a>
+    </div>
+    <div class="menu-divider"></div>
+    <div class="menu-section">Language</div>
+    <div class="menu-lang-wrap">
+      <select class="menu-lang-select" onchange="setLanguage(this.value)">
+        <option value="en">&#127760; English</option>
+        <option value="es">&#127760; Espa&#241;ol</option>
+        <option value="fr">&#127760; Fran&#231;ais</option>
+        <option value="de">&#127760; Deutsch</option>
+        <option value="ja">&#127760; &#26085;&#26412;&#35486;</option>
+        <option value="zh">&#127760; &#20013;&#25991;</option>
+      </select>
+    </div>
+  </nav>
+
+  <header>
+    <div class="menu-icon" onclick="openMenu()" role="button" aria-label="Open menu" tabindex="0">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="logo"><a href="index.html"><img src="images/camp-logo-full.png" alt="CAMP"></a></div>
+    <a href="cart.html" class="cart-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      Cart
+    </a>
+  </header>
+
+  <div class="account-wrap">
+
+    <div class="account-header">
+      <div>
+        <div class="account-greeting" id="greeting">My Account</div>
+        <div class="account-email" id="userEmail"></div>
+      </div>
+      <button class="signout-btn" onclick="signOut()">Sign Out</button>
+    </div>
+
+    <!-- Orders -->
+    <div class="section-label">Order History</div>
+    <div class="account-panel" id="ordersPanel">
+      <div class="order-empty">No orders yet. <a href="shop.html" style="color:var(--olive-dark);">Start shopping →</a></div>
+    </div>
+
+    <!-- Saved Address -->
+    <div class="section-label">Saved Address</div>
+    <div class="account-panel">
+      <div class="addr-grid">
+        <div class="addr-field"><label>First Name</label><input type="text" id="addrFirst" placeholder="First"></div>
+        <div class="addr-field"><label>Last Name</label><input type="text" id="addrLast" placeholder="Last"></div>
+        <div class="addr-field addr-full"><label>Street Address</label><input type="text" id="addrStreet" placeholder="123 Trail Rd"></div>
+        <div class="addr-field"><label>City</label><input type="text" id="addrCity" placeholder="City"></div>
+        <div class="addr-field"><label>State / Province</label><input type="text" id="addrState" placeholder="CO"></div>
+        <div class="addr-field"><label>ZIP / Postal Code</label><input type="text" id="addrZip" placeholder="80301"></div>
+        <div class="addr-field addr-full"><label>Country</label><input type="text" id="addrCountry" placeholder="United States"></div>
+      </div>
+      <div style="display:flex;align-items:center;margin-top:18px;">
+        <button class="save-btn" onclick="saveAddress()">Save Address</button>
+        <span class="save-confirm" id="addrConfirm">Saved.</span>
+      </div>
+    </div>
+
+    <!-- Payment -->
+    <div class="section-label">Payment Methods</div>
+    <div class="account-panel">
+      <p class="payment-note">Payment methods are saved securely at checkout. No card details are stored here.</p>
+    </div>
+
+    <!-- Quick links -->
+    <div class="section-label" style="margin-top:40px;">Quick Links</div>
+    <div class="quick-links">
+      <a href="cart.html" class="quick-link">Cart</a>
+      <a href="shipping.html" class="quick-link">Shipping &amp; Returns</a>
+      <a href="help.html" class="quick-link">Help &amp; FAQ</a>
+    </div>
+
+  </div>
+
+<script src="cart.js"></script>
+<script>
+  var user = localStorage.getItem('camp-user');
+  if (!user) { window.location.href = 'signin.html'; }
+
+  document.getElementById('userEmail').textContent = user;
+  var firstName = user ? user.split('@')[0] : '';
+  document.getElementById('greeting').textContent = 'Hello, ' + firstName + '.';
+
+  // Load saved address
+  var addr = JSON.parse(localStorage.getItem('camp-address-' + user) || '{}');
+  ['First','Last','Street','City','State','Zip','Country'].forEach(function(f) {
+    var el = document.getElementById('addr' + f);
+    if (el && addr[f.toLowerCase()]) el.value = addr[f.toLowerCase()];
+  });
+
+  function saveAddress() {
+    var data = {};
+    ['First','Last','Street','City','State','Zip','Country'].forEach(function(f) {
+      var el = document.getElementById('addr' + f);
+      if (el) data[f.toLowerCase()] = el.value.trim();
+    });
+    localStorage.setItem('camp-address-' + user, JSON.stringify(data));
+    var conf = document.getElementById('addrConfirm');
+    conf.classList.add('visible');
+    setTimeout(function(){ conf.classList.remove('visible'); }, 2500);
+  }
+
+  function signOut() {
+    localStorage.removeItem('camp-user');
+    window.location.href = 'index.html';
+  }
+
+  function openMenu(){document.getElementById('menuDrawer').classList.add('open');document.getElementById('menuOverlay').classList.add('open');document.body.style.overflow='hidden';}
+  function closeMenu(){document.getElementById('menuDrawer').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open');document.body.style.overflow='';}
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
+</script>
+<script src="lang.js"></script>
+</body>
+</html>

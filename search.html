@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMP — Search</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Archivo:wght@500;600;700&display=swap');
+  :root{--olive:#A9B36C;--olive-light:#C2CC8E;--olive-dark:#3A3C1C;--cream:#F0EDD9;--tan:#D8D2BF;--ink:#2A2A1E;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Cormorant Garamond',serif;background:var(--cream);color:var(--ink);min-height:100vh;}
+  header{display:flex;align-items:center;justify-content:space-between;padding:24px 28px 18px;background:var(--olive-light);}
+  .menu-icon{display:flex;flex-direction:column;gap:6px;cursor:pointer;}
+  .menu-icon span{display:block;width:32px;height:3px;background:var(--ink);}
+  .logo a{display:flex;align-items:center;text-decoration:none;}
+  .logo img{height:34px;width:auto;}
+  .cart-link{display:flex;align-items:center;gap:6px;font-family:'Archivo',sans-serif;font-weight:600;font-size:1rem;text-decoration:none;color:inherit;}
+  .cart-link svg{width:24px;height:22px;}
+
+  .search-hero{padding:52px 28px 36px;background:var(--olive-light);}
+  .search-hero-label{font-family:'Archivo',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;opacity:0.45;margin-bottom:16px;}
+  .search-wrap{display:flex;align-items:center;gap:0;max-width:680px;background:#fff;border:2px solid var(--olive-dark);border-radius:4px;overflow:hidden;}
+  .search-input{flex:1;padding:18px 20px;font-family:'Cormorant Garamond',serif;font-size:1.5rem;border:none;outline:none;color:var(--ink);background:transparent;}
+  .search-input::placeholder{color:#b8b29e;}
+  .search-icon{padding:0 20px;color:var(--olive-dark);display:flex;align-items:center;}
+  .search-icon svg{width:22px;height:22px;}
+
+  .results-wrap{max-width:780px;margin:0 auto;padding:40px 28px 80px;}
+  .results-count{font-family:'Archivo',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;opacity:0.4;margin-bottom:24px;}
+  .result-item{display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-bottom:1px solid var(--tan);text-decoration:none;color:inherit;transition:background 0.15s;}
+  .result-item:hover .result-name{text-decoration:underline;text-underline-offset:3px;}
+  .result-left{}
+  .result-collection{font-family:'Archivo',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.4;margin-bottom:4px;}
+  .result-name{font-size:1.4rem;font-style:italic;}
+  .result-price{font-size:1.2rem;opacity:0.6;}
+  .result-arrow{opacity:0.3;font-size:1.2rem;}
+
+  .no-results{padding:60px 0;text-align:center;}
+  .no-results-icon{font-size:2.5rem;opacity:0.2;margin-bottom:16px;}
+  .no-results-title{font-style:italic;font-size:1.6rem;margin-bottom:8px;}
+  .no-results-sub{font-size:1.1rem;opacity:0.5;}
+
+  .collections-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:40px;}
+  .collection-chip{display:block;padding:20px;background:var(--olive-light);border-radius:3px;text-align:center;font-style:italic;font-size:1.3rem;color:var(--ink);text-decoration:none;transition:background 0.15s;}
+  .collection-chip:hover{background:var(--tan);}
+  .explore-label{font-family:'Archivo',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;opacity:0.4;margin-bottom:14px;margin-top:48px;}
+
+  @media(max-width:500px){.collections-grid{grid-template-columns:1fr 1fr;}}
+
+  .menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,0);z-index:100;pointer-events:none;transition:background 0.3s ease;}
+  .menu-overlay.open{background:rgba(0,0,0,0.45);pointer-events:all;}
+  .menu-drawer{position:fixed;top:0;left:0;width:300px;max-width:85vw;height:100vh;background:var(--cream);z-index:101;transform:translateX(-100%);transition:transform 0.32s cubic-bezier(.4,0,.2,1);overflow-y:auto;display:flex;flex-direction:column;}
+  .menu-drawer.open{transform:translateX(0);}
+  .menu-top{display:flex;align-items:center;justify-content:space-between;padding:22px 28px 18px;border-bottom:1px solid var(--tan);}
+  .menu-top-label{font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);}
+  .menu-close-btn{background:none;border:none;cursor:pointer;font-size:1.4rem;line-height:1;color:var(--ink);display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;transition:background 0.15s ease;}
+  .menu-close-btn:hover{background:var(--tan);}
+  .menu-section{font-family:'Archivo',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);opacity:0.45;padding:20px 28px 6px;}
+  .menu-nav a{display:block;padding:11px 28px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.45rem;color:var(--ink);text-decoration:none;transition:background 0.15s ease;}
+  .menu-nav a:hover{background:var(--tan);}
+  .menu-divider{height:1px;background:var(--tan);margin:8px 0;}
+  .menu-lang-wrap{padding:10px 28px;}
+  .menu-lang-select{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.4rem;background:none;border:none;color:var(--ink);cursor:pointer;width:100%;padding:2px 0;-webkit-appearance:none;appearance:none;}
+</style>
+</head>
+<body>
+  <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+  <nav class="menu-drawer" id="menuDrawer">
+    <div class="menu-top">
+      <span class="menu-top-label">Menu</span>
+      <button class="menu-close-btn" onclick="closeMenu()" aria-label="Close menu">&#x2715;</button>
+    </div>
+    <a href="shop.html" class="menu-section" style="display:block;text-decoration:none;cursor:pointer;">Collections</a>
+    <div class="menu-nav">
+      <a href="peaks-collection.html">Peaks Collection</a>
+      <a href="explorer-collection.html">Explorer Collection</a>
+      <a href="wildlife-collection.html">Wildlife Collection</a>
+      <a href="base-camp-collection.html">Base Camp</a>
+      <a href="sea-collection.html">Sea Collection</a>
+    </div>
+    <div class="menu-divider"></div>
+    <div class="menu-section">Map</div>
+    <div class="menu-nav"><a href="index.html">Map</a></div>
+    <div class="menu-divider"></div>
+    <div class="menu-nav">
+      <a href="search.html">Search</a>
+      <a href="explore.html">Explore</a>
+      <a href="lookbook.html">Lookbook</a>
+      <a href="shop.html">Shop All</a>
+      <a href="new-arrivals.html">New Arrivals</a>
+      <a href="about.html">About</a>
+      <a href="help.html">Help</a>
+    </div>
+    <div class="menu-divider"></div>
+    <div class="menu-section">Account</div>
+    <div class="menu-nav" id="menuAccountNav"></div>
+    <div class="menu-divider"></div>
+    <div class="menu-section">Language</div>
+    <div class="menu-lang-wrap">
+      <select class="menu-lang-select" onchange="setLanguage(this.value)">
+        <option value="en">&#127760; English</option>
+        <option value="es">&#127760; Espa&#241;ol</option>
+        <option value="fr">&#127760; Fran&#231;ais</option>
+        <option value="de">&#127760; Deutsch</option>
+        <option value="ja">&#127760; &#26085;&#26412;&#35486;</option>
+        <option value="zh">&#127760; &#20013;&#25991;</option>
+      </select>
+    </div>
+  </nav>
+
+  <header>
+    <div class="menu-icon" onclick="openMenu()" role="button" aria-label="Open menu" tabindex="0">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="logo"><a href="index.html"><img src="images/camp-logo-full.png" alt="CAMP"></a></div>
+    <a href="cart.html" class="cart-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      Cart
+    </a>
+  </header>
+
+  <div class="search-hero">
+    <div class="search-hero-label">Search</div>
+    <div class="search-wrap">
+      <div class="search-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </div>
+      <input class="search-input" type="search" id="searchInput" placeholder="Search products…" autofocus autocomplete="off">
+    </div>
+  </div>
+
+  <div class="results-wrap">
+    <div class="results-count" id="resultsCount"></div>
+    <div id="resultsList"></div>
+    <div id="emptyState" class="no-results" style="display:none;">
+      <div class="no-results-icon">&#128269;</div>
+      <div class="no-results-title">No results found.</div>
+      <div class="no-results-sub">Try a different search or browse a collection.</div>
+    </div>
+    <div id="defaultState">
+      <div class="explore-label">Browse by Collection</div>
+      <div class="collections-grid">
+        <a href="peaks-collection.html" class="collection-chip">Peaks</a>
+        <a href="explorer-collection.html" class="collection-chip">Explorer</a>
+        <a href="wildlife-collection.html" class="collection-chip">Wildlife</a>
+        <a href="base-camp-collection.html" class="collection-chip">Base Camp</a>
+        <a href="sea-collection.html" class="collection-chip">Sea</a>
+        <a href="new-arrivals.html" class="collection-chip">New Arrivals</a>
+      </div>
+    </div>
+  </div>
+
+<script>
+  var PRODUCTS = [
+    {name:'Ridge Shell Jacket',collection:'Peaks Collection',url:'peaks-collection.html',price:'$198'},
+    {name:'Summit Fleece',collection:'Peaks Collection',url:'peaks-collection.html',price:'$124'},
+    {name:'Ascent Pant',collection:'Peaks Collection',url:'peaks-collection.html',price:'$165'},
+    {name:'Peak Beanie',collection:'Peaks Collection',url:'peaks-collection.html',price:'$38'},
+    {name:'Trail Jacket',collection:'Explorer Collection',url:'explorer-collection.html',price:'$186'},
+    {name:'Explorer Vest',collection:'Explorer Collection',url:'explorer-collection.html',price:'$98'},
+    {name:'Field Shirt',collection:'Explorer Collection',url:'explorer-collection.html',price:'$88'},
+    {name:'Trail Cap',collection:'Explorer Collection',url:'explorer-collection.html',price:'$42'},
+    {name:'Wilderness Hoodie',collection:'Wildlife Collection',url:'wildlife-collection.html',price:'$136'},
+    {name:'Forest Tee',collection:'Wildlife Collection',url:'wildlife-collection.html',price:'$58'},
+    {name:'Wildlife Crew',collection:'Wildlife Collection',url:'wildlife-collection.html',price:'$112'},
+    {name:'Nature Cap',collection:'Wildlife Collection',url:'wildlife-collection.html',price:'$42'},
+    {name:'Camp Fleece',collection:'Base Camp',url:'base-camp-collection.html',price:'$124'},
+    {name:'Base Layer Top',collection:'Base Camp',url:'base-camp-collection.html',price:'$76'},
+    {name:'Camp Pant',collection:'Base Camp',url:'base-camp-collection.html',price:'$112'},
+    {name:'Base Camp Beanie',collection:'Base Camp',url:'base-camp-collection.html',price:'$38'},
+    {name:'Harbor Crew Fleece',collection:'Sea Collection',url:'sea-collection.html',price:'$124'},
+    {name:'Tide Jacket',collection:'Sea Collection',url:'sea-collection.html',price:'$218'},
+    {name:'Shoreline Tee',collection:'Sea Collection',url:'sea-collection.html',price:'$64'},
+    {name:'Maritime Cap',collection:'Sea Collection',url:'sea-collection.html',price:'$42'},
+  ];
+
+  function renderResults(query) {
+    var list = document.getElementById('resultsList');
+    var count = document.getElementById('resultsCount');
+    var empty = document.getElementById('emptyState');
+    var def = document.getElementById('defaultState');
+    query = query.trim().toLowerCase();
+
+    if (!query) {
+      list.innerHTML = '';
+      count.textContent = '';
+      empty.style.display = 'none';
+      def.style.display = '';
+      return;
+    }
+
+    def.style.display = 'none';
+    var matches = PRODUCTS.filter(function(p) {
+      return p.name.toLowerCase().includes(query) || p.collection.toLowerCase().includes(query);
+    });
+
+    count.textContent = matches.length + ' result' + (matches.length !== 1 ? 's' : '') + ' for "' + query + '"';
+
+    if (!matches.length) {
+      list.innerHTML = '';
+      empty.style.display = '';
+      return;
+    }
+
+    empty.style.display = 'none';
+    list.innerHTML = matches.map(function(p) {
+      return '<a href="' + p.url + '" class="result-item">' +
+        '<div class="result-left">' +
+          '<div class="result-collection">' + p.collection + '</div>' +
+          '<div class="result-name">' + p.name + '</div>' +
+        '</div>' +
+        '<div style="display:flex;align-items:center;gap:16px;">' +
+          '<span class="result-price">' + p.price + '</span>' +
+          '<span class="result-arrow">&#8594;</span>' +
+        '</div>' +
+      '</a>';
+    }).join('');
+  }
+
+  document.getElementById('searchInput').addEventListener('input', function() {
+    renderResults(this.value);
+  });
+
+  function openMenu(){document.getElementById('menuDrawer').classList.add('open');document.getElementById('menuOverlay').classList.add('open');document.body.style.overflow='hidden';}
+  function closeMenu(){document.getElementById('menuDrawer').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open');document.body.style.overflow='';}
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
+  (function(){
+    var u=localStorage.getItem('camp-user');
+    var nav=document.getElementById('menuAccountNav');
+    nav.innerHTML=u
+      ?'<a href="account.html">My Account</a><a href="#" onclick="signOut()">Sign Out</a>'
+      :'<a href="signin.html">Sign In</a><a href="create-account.html">Create Account</a>';
+  })();
+  function signOut(){localStorage.removeItem('camp-user');window.location.href='index.html';}
+</script>
+<script src="lang.js"></script>
+</body>
+</html>

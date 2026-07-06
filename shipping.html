@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMP — Shipping &amp; Returns</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Archivo:wght@500;600;700&display=swap');
+  :root{--olive:#A9B36C;--olive-light:#C2CC8E;--olive-dark:#3A3C1C;--cream:#F0EDD9;--tan:#D8D2BF;--ink:#2A2A1E;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Cormorant Garamond',serif;background:var(--cream);color:var(--ink);min-height:100vh;}
+  header{display:flex;align-items:center;justify-content:space-between;padding:24px 28px 18px;background:var(--olive-light);}
+  .menu-icon{display:flex;flex-direction:column;gap:6px;cursor:pointer;}
+  .menu-icon span{display:block;width:32px;height:3px;background:var(--ink);}
+  .logo a{display:flex;align-items:center;text-decoration:none;}
+  .logo img{height:34px;width:auto;}
+  .cart-link{display:flex;align-items:center;gap:6px;font-family:'Archivo',sans-serif;font-weight:600;font-size:1rem;text-decoration:none;color:inherit;}
+  .cart-link svg{width:24px;height:22px;}
+  .page-wrap{max-width:720px;margin:0 auto;padding:60px 28px 100px;}
+  .page-eyebrow{font-family:'Archivo',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;opacity:0.4;margin-bottom:12px;}
+  .page-title{font-style:italic;font-size:3rem;font-weight:400;line-height:1.05;margin-bottom:48px;}
+  .policy-card{background:var(--olive-light);border-radius:6px;padding:32px 36px;margin-bottom:24px;}
+  .policy-card-title{font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:16px;}
+  .policy-row{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid rgba(42,42,30,0.1);font-size:1.2rem;}
+  .policy-row:last-child{border-bottom:none;}
+  .policy-label{opacity:0.7;}
+  .policy-val{font-weight:500;}
+  .legal-h{font-family:'Archivo',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px;margin-top:40px;}
+  .legal-p{font-size:1.2rem;line-height:1.7;opacity:0.8;margin-bottom:12px;}
+  .legal-ul{font-size:1.2rem;line-height:1.7;opacity:0.8;padding-left:24px;margin-bottom:12px;}
+  .legal-divider{height:1px;background:var(--tan);margin:36px 0;}
+  .contact-note{margin-top:48px;font-style:italic;font-size:1.3rem;opacity:0.6;}
+  .contact-note a{color:var(--olive-dark);}
+  .menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,0);z-index:100;pointer-events:none;transition:background 0.3s ease;}
+  .menu-overlay.open{background:rgba(0,0,0,0.45);pointer-events:all;}
+  .menu-drawer{position:fixed;top:0;left:0;width:300px;max-width:85vw;height:100vh;background:var(--cream);z-index:101;transform:translateX(-100%);transition:transform 0.32s cubic-bezier(.4,0,.2,1);overflow-y:auto;display:flex;flex-direction:column;}
+  .menu-drawer.open{transform:translateX(0);}
+  .menu-top{display:flex;align-items:center;justify-content:space-between;padding:22px 28px 18px;border-bottom:1px solid var(--tan);}
+  .menu-top-label{font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);}
+  .menu-close-btn{background:none;border:none;cursor:pointer;font-size:1.4rem;line-height:1;color:var(--ink);display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;transition:background 0.15s ease;}
+  .menu-close-btn:hover{background:var(--tan);}
+  .menu-section{font-family:'Archivo',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);opacity:0.45;padding:20px 28px 6px;}
+  .menu-nav a{display:block;padding:11px 28px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.45rem;color:var(--ink);text-decoration:none;transition:background 0.15s ease;}
+  .menu-nav a:hover{background:var(--tan);}
+  .menu-divider{height:1px;background:var(--tan);margin:8px 0;}
+  .menu-lang-wrap{padding:10px 28px;}
+  .menu-lang-select{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.4rem;background:none;border:none;color:var(--ink);cursor:pointer;width:100%;padding:2px 0;-webkit-appearance:none;appearance:none;}
+</style>
+</head>
+<body>
+  <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+  <nav class="menu-drawer" id="menuDrawer">
+    <div class="menu-top">
+      <span class="menu-top-label">Menu</span>
+      <button class="menu-close-btn" onclick="closeMenu()" aria-label="Close menu">&#x2715;</button>
+    </div>
+    <a href="shop.html" class="menu-section" style="display:block;text-decoration:none;cursor:pointer;">Collections</a>
+    <div class="menu-nav">
+      <a href="peaks-collection.html">Peaks Collection</a>
+      <a href="explorer-collection.html">Explorer Collection</a>
+      <a href="wildlife-collection.html">Wildlife Collection</a>
+      <a href="base-camp-collection.html">Base Camp</a>
+      <a href="sea-collection.html">Sea Collection</a>
+    </div>
+    <div class="menu-divider"></div>
+    <div class="menu-section">Map</div>
+    <div class="menu-nav"><a href="index.html">Map</a></div>
+    <div class="menu-divider"></div>
+    <div class="menu-nav">
+      <a href="search.html">Search</a>
+      <a href="explore.html">Explore</a>
+      <a href="lookbook.html">Lookbook</a>
+      <a href="shop.html">Shop All</a>
+      <a href="new-arrivals.html">New Arrivals</a>
+      <a href="about.html">About</a>
+      <a href="help.html">Help</a>
+    </div>
+    <div class="menu-divider"></div>
+    <div class="menu-section">Account</div>
+    <div class="menu-nav" id="menuAccountNav"></div>
+    <div class="menu-divider"></div>
+    <div class="menu-section">Language</div>
+    <div class="menu-lang-wrap">
+      <select class="menu-lang-select" onchange="setLanguage(this.value)">
+        <option value="en">&#127760; English</option>
+        <option value="es">&#127760; Espa&#241;ol</option>
+        <option value="fr">&#127760; Fran&#231;ais</option>
+        <option value="de">&#127760; Deutsch</option>
+        <option value="ja">&#127760; &#26085;&#26412;&#35486;</option>
+        <option value="zh">&#127760; &#20013;&#25991;</option>
+      </select>
+    </div>
+  </nav>
+
+  <header>
+    <div class="menu-icon" onclick="openMenu()" role="button" aria-label="Open menu" tabindex="0">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="logo"><a href="index.html"><img src="images/camp-logo-full.png" alt="CAMP"></a></div>
+    <a href="cart.html" class="cart-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      Cart
+    </a>
+  </header>
+
+  <div class="page-wrap">
+    <div class="page-eyebrow">Policies</div>
+    <div class="page-title">Shipping &amp; Returns</div>
+
+    <div class="policy-card">
+      <div class="policy-card-title">Shipping Options</div>
+      <div class="policy-row"><span class="policy-label">Standard (5–7 business days)</span><span class="policy-val">$8.00</span></div>
+      <div class="policy-row"><span class="policy-label">Expedited (2–3 business days)</span><span class="policy-val">$18.00</span></div>
+      <div class="policy-row"><span class="policy-label">Overnight</span><span class="policy-val">$32.00</span></div>
+      <div class="policy-row"><span class="policy-label">Free shipping on orders over</span><span class="policy-val">$150</span></div>
+    </div>
+
+    <div class="policy-card">
+      <div class="policy-card-title">International Shipping</div>
+      <div class="policy-row"><span class="policy-label">Canada &amp; Mexico</span><span class="policy-val">$18.00</span></div>
+      <div class="policy-row"><span class="policy-label">Europe &amp; UK</span><span class="policy-val">$28.00</span></div>
+      <div class="policy-row"><span class="policy-label">Rest of World</span><span class="policy-val">$36.00</span></div>
+      <div class="policy-row"><span class="policy-label">Duties &amp; taxes</span><span class="policy-val">Recipient's responsibility</span></div>
+    </div>
+
+    <div class="legal-h">Return Policy</div>
+    <p class="legal-p">We accept returns within <strong>30 days</strong> of delivery on items that are unworn, unwashed, and have original tags attached. Sale items are final sale and cannot be returned.</p>
+
+    <div class="legal-divider"></div>
+
+    <div class="legal-h">How to Return</div>
+    <ul class="legal-ul">
+      <li>Email us at <a href="mailto:tyiosepa@gmail.com" style="color:var(--olive-dark);">tyiosepa@gmail.com</a> with your order number and reason for return</li>
+      <li>We'll send you a prepaid return label within 1–2 business days</li>
+      <li>Pack the item securely in its original packaging if possible</li>
+      <li>Drop it off at any carrier location</li>
+      <li>Refunds are issued to the original payment method within 5–7 business days of receiving the return</li>
+    </ul>
+
+    <div class="legal-divider"></div>
+
+    <div class="legal-h">Exchanges</div>
+    <p class="legal-p">We offer size and color exchanges on eligible items. To exchange, follow the return process above and note which size or color you'd like instead. We'll ship the replacement as soon as we receive your return.</p>
+
+    <div class="legal-divider"></div>
+
+    <div class="legal-h">Damaged or Wrong Items</div>
+    <p class="legal-p">If you received a damaged item or the wrong product, contact us immediately and we'll make it right — at no cost to you.</p>
+
+    <p class="contact-note">Questions? <a href="contact.html">Contact us →</a></p>
+  </div>
+
+  <script>
+    function openMenu(){document.getElementById('menuDrawer').classList.add('open');document.getElementById('menuOverlay').classList.add('open');document.body.style.overflow='hidden';}
+    function closeMenu(){document.getElementById('menuDrawer').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open');document.body.style.overflow='';}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
+    (function(){
+      var u=localStorage.getItem('camp-user');
+      var nav=document.getElementById('menuAccountNav');
+      nav.innerHTML=u
+        ?'<a href="account.html">My Account</a><a href="#" onclick="signOut()">Sign Out</a>'
+        :'<a href="signin.html">Sign In</a><a href="create-account.html">Create Account</a>';
+    })();
+    function signOut(){localStorage.removeItem('camp-user');window.location.href='index.html';}
+  </script>
+  <script src="lang.js"></script>
+</body>
+</html>

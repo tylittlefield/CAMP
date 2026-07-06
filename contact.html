@@ -486,7 +486,9 @@
     <div class="menu-divider"></div>
 
     <div class="menu-nav">
+      <a href="search.html">Search</a>
       <a href="explore.html" data-i18n="explore">Explore</a>
+      <a href="lookbook.html">Lookbook</a>
       <a href="shop.html" data-i18n="shop-all">Shop All</a>
       <a href="new-arrivals.html" data-i18n="new-arrivals">New Arrivals</a>
       <a href="about.html" data-i18n="about">About</a>
@@ -495,7 +497,10 @@
 
     <div class="menu-divider"></div>
 
-    <div class="menu-section"     <div class="menu-section" data-i18n="language">Language</div>
+    <div class="menu-section">Account</div>
+    <div class="menu-nav" id="menuAccountNav"></div>
+    <div class="menu-divider"></div>
+    <div class="menu-section" data-i18n="language">Language</div>
     <div class="menu-lang-wrap">
       <select class="menu-lang-select" onchange="setLanguage(this.value)" aria-label="Select language">
         <option value="en">&#127760; English</option>
@@ -531,37 +536,38 @@
       </a>
     </div>
 
-    <form class="contact-form">
+    <div id="cfSuccess" style="display:none;text-align:center;padding:48px 0;"><div style="font-size:2rem;margin-bottom:12px;">&#9993;</div><div style="font-style:italic;font-size:1.8rem;margin-bottom:8px;">Message sent.</div><div style="font-size:1.1rem;opacity:0.6;">We'll get back to you soon.</div></div>
+    <form class="contact-form" id="contactForm" onsubmit="return false;">
 
       <div class="form-section-label">Name</div>
 
       <div class="form-row">
         <div class="form-field">
           <label>First Name <span class="required">(required)</span></label>
-          <input type="text" required>
+          <input type="text" id="cfFirst" required>
         </div>
         <div class="form-field">
           <label>Last Name <span class="required">(required)</span></label>
-          <input type="text" required>
+          <input type="text" id="cfLast" required>
         </div>
       </div>
 
       <div class="form-field">
         <label>Email <span class="required">(required)</span></label>
-        <input type="email" required>
+        <input type="email" id="cfEmail" required>
       </div>
 
       <div class="form-field">
         <label>Subject <span class="required">(required)</span></label>
-        <input type="text" required>
+        <input type="text" id="cfSubject" required>
       </div>
 
       <div class="form-field">
         <label>Message <span class="required">(required)</span></label>
-        <textarea rows="6" required></textarea>
+        <textarea rows="6" id="cfMessage" required></textarea>
       </div>
 
-      <button type="submit" class="submit-btn">Submit</button>
+      <button type="submit" class="submit-btn" id="cfSubmitBtn" onclick="submitContact()">Submit</button>
 
     </form>
 
@@ -573,8 +579,8 @@
   <div class="newsletter">
     <div class="newsletter-heading">What's New?</div>
     <div class="newsletter-sub">Sign up to receive news and updates.</div>
-    <input class="newsletter-email" type="email" placeholder="Email Address" readonly>
-    <button class="newsletter-btn">Sign Up</button>
+    <input class="newsletter-email" type="email" id="contactNlEmail" placeholder="Email Address">
+    <button class="newsletter-btn" onclick="submitContactNewsletter()">Sign Up</button>
   </div>
 
   <footer>
@@ -602,6 +608,8 @@
 ">&#8592; Back to Map</a>
 
   <script>
+    var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwo2dYD00ZJG98qLknR4ePC73PXQ3UdRWXtJFraN8sVEYQIx-cibBSv34oR7L7C1PW-/exec';
+
     function openMenu(){
       document.getElementById('menuDrawer').classList.add('open');
       document.getElementById('menuOverlay').classList.add('open');
@@ -615,6 +623,47 @@
     document.addEventListener('keydown',function(e){
       if(e.key==='Escape') closeMenu();
     });
+
+    (function(){
+      var u=localStorage.getItem('camp-user');
+      var nav=document.getElementById('menuAccountNav');
+      nav.innerHTML=u?'<a href="account.html">My Account</a><a href="#" onclick="signOut()">Sign Out</a>':'<a href="signin.html">Sign In</a><a href="create-account.html">Create Account</a>';
+      var emailEl=document.getElementById('cfEmail');
+      if(u && emailEl) emailEl.value=u;
+      var nlEl=document.getElementById('contactNlEmail');
+      if(u && nlEl) nlEl.value=u;
+    })();
+    function signOut(){localStorage.removeItem('camp-user');window.location.href='index.html';}
+
+    function submitContact() {
+      var first = document.getElementById('cfFirst').value.trim();
+      var last = document.getElementById('cfLast').value.trim();
+      var email = document.getElementById('cfEmail').value.trim();
+      var subject = document.getElementById('cfSubject').value.trim();
+      var message = document.getElementById('cfMessage').value.trim();
+      if (!first || !email || !subject || !message) return;
+      var btn = document.getElementById('cfSubmitBtn');
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+      var url = SHEETS_URL + '?type=contact&firstName=' + encodeURIComponent(first)
+        + '&lastName=' + encodeURIComponent(last)
+        + '&email=' + encodeURIComponent(email)
+        + '&subject=' + encodeURIComponent(subject)
+        + '&message=' + encodeURIComponent(message);
+      fetch(url).catch(function(){});
+      document.getElementById('contactForm').style.display = 'none';
+      document.getElementById('cfSuccess').style.display = 'block';
+    }
+
+    function submitContactNewsletter() {
+      var el = document.getElementById('contactNlEmail');
+      var email = el ? el.value.trim() : '';
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { if(el) el.focus(); return; }
+      localStorage.setItem('camp-user', email);
+      fetch(SHEETS_URL + '?email=' + encodeURIComponent(email)).catch(function(){});
+      el.value = '';
+      el.placeholder = 'Thanks for signing up!';
+    }
   </script>
 <script src="lang.js"></script>
 </body>
