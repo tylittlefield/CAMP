@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMP — Checkout</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Archivo:wght@500;600;700&display=swap');
+  :root{--olive:#A9B36C;--olive-light:#C2CC8E;--olive-dark:#3A3C1C;--cream:#F0EDD9;--tan:#D8D2BF;--ink:#2A2A1E;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Cormorant Garamond',serif;background:var(--cream);color:var(--ink);min-height:100vh;}
+  .top-bar{display:flex;align-items:center;justify-content:space-between;padding:20px 28px;background:var(--olive-light);}
+  .top-bar-back{display:flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink);font-family:'Archivo',sans-serif;font-size:0.8rem;font-weight:600;letter-spacing:0.05em;}
+  .logo img{height:32px;width:auto;}
+  .checkout-wrap{max-width:1060px;margin:0 auto;padding:48px 28px 80px;display:grid;grid-template-columns:1fr 380px;gap:56px;align-items:start;}
+  @media(max-width:760px){.checkout-wrap{grid-template-columns:1fr;gap:40px;}}
+
+  .section-label{font-family:'Archivo',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;opacity:0.45;margin-bottom:18px;}
+  .checkout-section{margin-bottom:36px;}
+
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-family:'Archivo',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;opacity:0.55;margin-bottom:6px;}
+  .field input,.field select{width:100%;padding:12px 14px;font-family:'Cormorant Garamond',serif;font-size:1.15rem;background:#fff;border:1.5px solid var(--tan);border-radius:3px;color:var(--ink);outline:none;transition:border-color 0.2s;-webkit-appearance:none;appearance:none;}
+  .field input:focus,.field select:focus{border-color:var(--olive-dark);}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+  .card-icons{display:flex;gap:8px;margin-bottom:16px;opacity:0.5;font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.06em;}
+  .card-badge{padding:4px 10px;border:1.5px solid var(--tan);border-radius:3px;}
+
+  .place-order-btn{width:100%;padding:18px;background:var(--olive-dark);color:var(--cream);font-family:'Archivo',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;border:none;border-radius:3px;cursor:pointer;transition:background 0.2s,transform 0.15s;margin-top:8px;}
+  .place-order-btn:hover{background:#2e3010;transform:translateY(-1px);}
+  .place-order-btn:disabled{opacity:0.5;cursor:default;transform:none;}
+
+  .order-summary{background:var(--olive-light);border-radius:6px;padding:28px 28px;position:sticky;top:28px;}
+  .summary-title{font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:20px;}
+  .summary-item{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid rgba(42,42,30,0.1);}
+  .summary-item:last-of-type{border-bottom:none;}
+  .summary-item-img{width:48px;height:58px;background:rgba(42,42,30,0.08);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;}
+  .summary-item-name{font-size:1.1rem;font-weight:500;margin-bottom:2px;}
+  .summary-item-meta{font-size:0.95rem;opacity:0.5;}
+  .summary-item-price{margin-left:auto;font-size:1.1rem;font-weight:500;white-space:nowrap;}
+  .summary-totals{margin-top:16px;padding-top:16px;border-top:1px solid rgba(42,42,30,0.15);}
+  .summary-row{display:flex;justify-content:space-between;font-size:1.1rem;padding:6px 0;opacity:0.75;}
+  .summary-total-row{display:flex;justify-content:space-between;font-size:1.25rem;font-weight:500;padding:14px 0 0;border-top:1.5px solid var(--olive-dark);margin-top:8px;}
+
+  .security-note{font-family:'Archivo',sans-serif;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;opacity:0.4;text-align:center;margin-top:16px;}
+  .empty-cart-msg{padding:60px 0;text-align:center;font-style:italic;font-size:1.4rem;opacity:0.5;}
+  .empty-cart-msg a{color:var(--olive-dark);}
+</style>
+</head>
+<body>
+  <div class="top-bar">
+    <a href="cart.html" class="top-bar-back">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Cart
+    </a>
+    <div class="logo"><a href="index.html"><img src="images/camp-logo-full.png" alt="CAMP"></a></div>
+    <div style="width:60px"></div>
+  </div>
+
+  <div class="checkout-wrap" id="checkoutWrap">
+
+    <div id="checkoutForm">
+      <!-- Contact -->
+      <div class="checkout-section">
+        <div class="section-label">Contact</div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" id="ckEmail" placeholder="you@example.com" required autocomplete="email">
+        </div>
+      </div>
+
+      <!-- Shipping -->
+      <div class="checkout-section">
+        <div class="section-label">Shipping Address</div>
+        <div class="field-row">
+          <div class="field"><label>First Name</label><input type="text" id="ckFirst" required autocomplete="given-name"></div>
+          <div class="field"><label>Last Name</label><input type="text" id="ckLast" required autocomplete="family-name"></div>
+        </div>
+        <div class="field"><label>Address</label><input type="text" id="ckAddress" placeholder="123 Trail Rd" required autocomplete="street-address"></div>
+        <div class="field-row">
+          <div class="field"><label>City</label><input type="text" id="ckCity" required autocomplete="address-level2"></div>
+          <div class="field"><label>State</label><input type="text" id="ckState" placeholder="CO" required autocomplete="address-level1"></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>ZIP</label><input type="text" id="ckZip" placeholder="80301" required autocomplete="postal-code"></div>
+          <div class="field">
+            <label>Country</label>
+            <select id="ckCountry" autocomplete="country">
+              <option>United States</option>
+              <option>Canada</option>
+              <option>United Kingdom</option>
+              <option>Australia</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment -->
+      <div class="checkout-section">
+        <div class="section-label">Payment</div>
+        <div class="card-icons">
+          <span class="card-badge">Visa</span>
+          <span class="card-badge">MC</span>
+          <span class="card-badge">Amex</span>
+        </div>
+        <div class="field"><label>Card Number</label><input type="text" id="ckCard" placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="cc-number"></div>
+        <div class="field-row">
+          <div class="field"><label>Expiry</label><input type="text" id="ckExpiry" placeholder="MM / YY" maxlength="7" autocomplete="cc-exp"></div>
+          <div class="field"><label>CVC</label><input type="text" id="ckCvc" placeholder="123" maxlength="4" autocomplete="cc-csc"></div>
+        </div>
+        <div class="field"><label>Name on Card</label><input type="text" id="ckCardName" autocomplete="cc-name"></div>
+      </div>
+
+      <button class="place-order-btn" id="placeOrderBtn" onclick="placeOrder()">Place Order</button>
+      <div class="security-note">&#128274; &nbsp; Secured &amp; encrypted checkout</div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="order-summary">
+      <div class="summary-title">Order Summary</div>
+      <div id="summaryItems"></div>
+      <div class="summary-totals">
+        <div class="summary-row"><span>Subtotal</span><span id="ckSubtotal">$0</span></div>
+        <div class="summary-row"><span>Shipping</span><span id="ckShipping">$8.00</span></div>
+        <div class="summary-row"><span>Tax (est.)</span><span id="ckTax">$0</span></div>
+        <div class="summary-total-row"><span>Total</span><span id="ckTotal">$0</span></div>
+      </div>
+    </div>
+
+  </div>
+
+<script src="cart.js"></script>
+<script>
+  var items = Cart.getCart();
+
+  if (!items.length) {
+    document.getElementById('checkoutWrap').innerHTML = '<div class="empty-cart-msg">Your cart is empty. <a href="shop.html">Shop all collections →</a></div>';
+  } else {
+    renderSummary();
+    prefillFromAccount();
+  }
+
+  function renderSummary() {
+    var si = document.getElementById('summaryItems');
+    si.innerHTML = items.map(function(it){
+      var meta = it.collection || '';
+      if (it.size) meta += (meta?'  ·  ':'')+it.size;
+      if (it.color) meta += '  ·  '+it.color;
+      return '<div class="summary-item">'
+        +'<div class="summary-item-img">'+(it.emoji||'&#9651;')+'</div>'
+        +'<div style="flex:1;min-width:0;">'
+          +'<div class="summary-item-name">'+it.name+'</div>'
+          +'<div class="summary-item-meta">'+meta+(it.qty>1?' &times;'+it.qty:'')+'</div>'
+        +'</div>'
+        +'<div class="summary-item-price">$'+(it.price*it.qty)+'</div>'
+        +'</div>';
+    }).join('');
+    var sub = items.reduce(function(s,i){return s+i.price*i.qty;},0);
+    var ship = sub >= 150 ? 0 : 8;
+    var tax = Math.round(sub * 0.08);
+    document.getElementById('ckSubtotal').textContent = '$'+sub;
+    document.getElementById('ckShipping').textContent = ship === 0 ? 'Free' : '$'+ship+'.00';
+    document.getElementById('ckTax').textContent = '$'+tax;
+    document.getElementById('ckTotal').textContent = '$'+(sub+ship+tax);
+    window._ckTotal = sub+ship+tax;
+    window._ckShip = ship;
+    window._ckTax = tax;
+  }
+
+  function prefillFromAccount() {
+    var u = localStorage.getItem('camp-user');
+    if (u) document.getElementById('ckEmail').value = u;
+    var addr = JSON.parse(localStorage.getItem('camp-address-'+u) || '{}');
+    if (addr.first) document.getElementById('ckFirst').value = addr.first;
+    if (addr.last) document.getElementById('ckLast').value = addr.last;
+    if (addr.street) document.getElementById('ckAddress').value = addr.street;
+    if (addr.city) document.getElementById('ckCity').value = addr.city;
+    if (addr.state) document.getElementById('ckState').value = addr.state;
+    if (addr.zip) document.getElementById('ckZip').value = addr.zip;
+  }
+
+  function placeOrder() {
+    var email = document.getElementById('ckEmail').value.trim();
+    var first = document.getElementById('ckFirst').value.trim();
+    var address = document.getElementById('ckAddress').value.trim();
+    var city = document.getElementById('ckCity').value.trim();
+    var card = document.getElementById('ckCard').value.trim();
+    if (!email || !first || !address || !city || !card) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    var btn = document.getElementById('placeOrderBtn');
+    btn.textContent = 'Processing…';
+    btn.disabled = true;
+    setTimeout(function(){
+      var orderNum = 'CAMP-' + Math.floor(10000 + Math.random()*90000);
+      var order = {
+        id: orderNum,
+        date: new Date().toISOString(),
+        items: items,
+        total: window._ckTotal,
+        shipping: window._ckShip,
+        tax: window._ckTax,
+        address: {
+          name: first + ' ' + document.getElementById('ckLast').value.trim(),
+          street: address,
+          city: city,
+          state: document.getElementById('ckState').value.trim(),
+          zip: document.getElementById('ckZip').value.trim(),
+          country: document.getElementById('ckCountry').value
+        },
+        status: 'Processing'
+      };
+      // Save order to account
+      var user = localStorage.getItem('camp-user') || email;
+      if (email) localStorage.setItem('camp-user', email);
+      var orders = JSON.parse(localStorage.getItem('camp-orders-'+user) || '[]');
+      orders.unshift(order);
+      localStorage.setItem('camp-orders-'+user, JSON.stringify(orders));
+      // Save address for account page
+      localStorage.setItem('camp-address-'+user, JSON.stringify({
+        first: first,
+        last: document.getElementById('ckLast').value.trim(),
+        street: address,
+        city: city,
+        state: document.getElementById('ckState').value.trim(),
+        zip: document.getElementById('ckZip').value.trim(),
+        country: document.getElementById('ckCountry').value
+      }));
+      localStorage.setItem('camp-last-order', JSON.stringify(order));
+      Cart.clearCart();
+      window.location.href = 'order-confirmation.html';
+    }, 1400);
+  }
+
+  // Card number formatting
+  document.getElementById('ckCard').addEventListener('input', function(){
+    var v = this.value.replace(/\D/g,'').slice(0,16);
+    this.value = v.replace(/(.{4})/g,'$1 ').trim();
+  });
+  document.getElementById('ckExpiry').addEventListener('input', function(){
+    var v = this.value.replace(/\D/g,'').slice(0,4);
+    if (v.length >= 2) v = v.slice(0,2)+' / '+v.slice(2);
+    this.value = v;
+  });
+</script>
+</body>
+</html>

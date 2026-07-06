@@ -184,7 +184,7 @@
       var btn=document.getElementById('topSigninBtn');
       if(u){btn.textContent='Account';btn.href='account.html';}
       var nav=document.getElementById('menuAccountNav');
-      nav.innerHTML=u?'<a href="account.html">My Account</a><a href="#" onclick="signOut()">Sign Out</a>':'<a href="signin.html">Sign In</a><a href="create-account.html">Create Account</a>';
+      nav.innerHTML=u?'<a href="account.html">My Account</a><a href="wishlist.html">Wishlist</a><a href="#" onclick="signOut()">Sign Out</a>':'<a href="signin.html">Sign In</a><a href="create-account.html">Create Account</a>';
       var foot=document.getElementById('footerAccountLinks');
       if(u) foot.innerHTML='<a href="account.html" class="home-footer-link">My Account</a><a href="#" class="home-footer-link" onclick="signOut();return false;">Sign Out</a>';
     })();

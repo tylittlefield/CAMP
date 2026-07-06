@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMP — Wishlist</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Archivo:wght@500;600;700&display=swap');
+  :root{--olive:#A9B36C;--olive-light:#C2CC8E;--olive-dark:#3A3C1C;--cream:#F0EDD9;--tan:#D8D2BF;--ink:#2A2A1E;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Cormorant Garamond',serif;background:var(--cream);color:var(--ink);min-height:100vh;}
+  header{display:flex;align-items:center;justify-content:space-between;padding:24px 28px 18px;background:var(--olive-light);}
+  .menu-icon{display:flex;flex-direction:column;gap:6px;cursor:pointer;}
+  .menu-icon span{display:block;width:32px;height:3px;background:var(--ink);}
+  .logo a{display:flex;align-items:center;text-decoration:none;}
+  .logo img{height:34px;width:auto;}
+  .cart-link{display:flex;align-items:center;gap:6px;font-family:'Archivo',sans-serif;font-weight:600;font-size:1rem;text-decoration:none;color:inherit;}
+  .cart-link svg{width:24px;height:22px;}
+  .page-wrap{max-width:900px;margin:0 auto;padding:52px 28px 100px;}
+  .page-eyebrow{font-family:'Archivo',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;opacity:0.4;margin-bottom:12px;}
+  .page-title{font-style:italic;font-size:2.8rem;font-weight:400;margin-bottom:40px;}
+  .wishlist-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  @media(max-width:700px){.wishlist-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:440px){.wishlist-grid{grid-template-columns:1fr;}}
+  .wish-card{background:#fff;border:1.5px solid var(--tan);border-radius:6px;overflow:hidden;position:relative;}
+  .wish-img{aspect-ratio:3/4;background:var(--olive-light);display:flex;align-items:center;justify-content:center;font-size:4rem;}
+  .wish-body{padding:16px 18px;}
+  .wish-collection{font-family:'Archivo',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.4;margin-bottom:4px;}
+  .wish-name{font-size:1.25rem;font-style:italic;margin-bottom:4px;}
+  .wish-price{font-size:1.1rem;opacity:0.65;margin-bottom:14px;}
+  .wish-actions{display:flex;flex-direction:column;gap:8px;}
+  .wish-atc{width:100%;padding:10px;background:var(--olive-dark);color:var(--cream);font-family:'Archivo',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;border:none;border-radius:3px;cursor:pointer;text-decoration:none;display:block;text-align:center;transition:background 0.15s;}
+  .wish-atc:hover{background:#2e3010;}
+  .wish-remove{width:100%;padding:8px;background:none;border:1px solid var(--tan);border-radius:3px;font-family:'Archivo',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink);cursor:pointer;transition:background 0.15s;}
+  .wish-remove:hover{background:var(--tan);}
+  .empty-state{text-align:center;padding:80px 0;}
+  .empty-icon{font-size:2.5rem;opacity:0.2;margin-bottom:16px;}
+  .empty-title{font-style:italic;font-size:1.8rem;margin-bottom:8px;}
+  .empty-sub{font-size:1.1rem;opacity:0.5;margin-bottom:28px;}
+  .empty-btn{display:inline-block;padding:13px 32px;background:var(--olive-dark);color:var(--cream);font-family:'Archivo',sans-serif;font-size:0.76rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;border-radius:3px;}
+  .menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,0);z-index:100;pointer-events:none;transition:background 0.3s ease;}
+  .menu-overlay.open{background:rgba(0,0,0,0.45);pointer-events:all;}
+  .menu-drawer{position:fixed;top:0;left:0;width:300px;max-width:85vw;height:100vh;background:var(--cream);z-index:101;transform:translateX(-100%);transition:transform 0.32s cubic-bezier(.4,0,.2,1);overflow-y:auto;display:flex;flex-direction:column;}
+  .menu-drawer.open{transform:translateX(0);}
+  .menu-top{display:flex;align-items:center;justify-content:space-between;padding:22px 28px 18px;border-bottom:1px solid var(--tan);}
+  .menu-top-label{font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);}
+  .menu-close-btn{background:none;border:none;cursor:pointer;font-size:1.4rem;line-height:1;color:var(--ink);display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;transition:background 0.15s ease;}
+  .menu-close-btn:hover{background:var(--tan);}
+  .menu-section{font-family:'Archivo',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);opacity:0.45;padding:20px 28px 6px;}
+  .menu-nav a{display:block;padding:11px 28px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.45rem;color:var(--ink);text-decoration:none;transition:background 0.15s ease;}
+  .menu-nav a:hover{background:var(--tan);}
+  .menu-divider{height:1px;background:var(--tan);margin:8px 0;}
+  .menu-lang-wrap{padding:10px 28px;}
+  .menu-lang-select{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.4rem;background:none;border:none;color:var(--ink);cursor:pointer;width:100%;padding:2px 0;-webkit-appearance:none;appearance:none;}
+</style>
+</head>
+<body>
+  <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+  <nav class="menu-drawer" id="menuDrawer">
+    <div class="menu-top">
+      <span class="menu-top-label">Menu</span>
+      <button class="menu-close-btn" onclick="closeMenu()" aria-label="Close menu">&#x2715;</button>
+    </div>
+    <a href="shop.html" class="menu-section" style="display:block;text-decoration:none;cursor:pointer;">Collections</a>
+    <div class="menu-nav">
+      <a href="peaks-collection.html">Peaks Collection</a>
+      <a href="explorer-collection.html">Explorer Collection</a>
+      <a href="wildlife-collection.html">Wildlife Collection</a>
+      <a href="base-camp-collection.html">Base Camp</a>
+      <a href="sea-collection.html">Sea Collection</a>
+    </div>
+    <div class="menu-divider"></div>
+    <div class="menu-section">Map</div>
+    <div class="menu-nav"><a href="index.html">Map</a></div>
+    <div class="menu-divider"></div>
+    <div class="menu-nav">
+      <a href="search.html">Search</a>
+      <a href="explore.html">Explore</a>
+      <a href="lookbook.html">Lookbook</a>
+      <a href="shop.html">Shop All</a>
+      <a href="new-arrivals.html">New Arrivals</a>
+      <a href="about.html">About</a>
+      <a href="help.html">Help</a>
+    </div>
+    <div class="menu-divider"></div>
+    <div class="menu-section">Account</div>
+    <div class="menu-nav" id="menuAccountNav"></div>
+    <div class="menu-divider"></div>
+    <div class="menu-section">Language</div>
+    <div class="menu-lang-wrap">
+      <select class="menu-lang-select" onchange="setLanguage(this.value)">
+        <option value="en">&#127760; English</option>
+        <option value="es">&#127760; Espa&#241;ol</option>
+        <option value="fr">&#127760; Fran&#231;ais</option>
+        <option value="de">&#127760; Deutsch</option>
+        <option value="ja">&#127760; &#26085;&#26412;&#35486;</option>
+        <option value="zh">&#127760; &#20013;&#25991;</option>
+      </select>
+    </div>
+  </nav>
+
+  <header>
+    <div class="menu-icon" onclick="openMenu()" role="button" aria-label="Open menu" tabindex="0">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="logo"><a href="index.html"><img src="images/camp-logo-full.png" alt="CAMP"></a></div>
+    <a href="cart.html" class="cart-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      Cart
+    </a>
+  </header>
+
+  <div class="page-wrap">
+    <div class="page-eyebrow">Saved</div>
+    <div class="page-title">Wishlist</div>
+    <div id="wishContent"></div>
+  </div>
+
+<script src="products.js"></script>
+<script src="cart.js"></script>
+<script>
+  function renderWishlist() {
+    var wl = JSON.parse(localStorage.getItem('camp-wishlist') || '[]');
+    var container = document.getElementById('wishContent');
+    if (!wl.length) {
+      container.innerHTML = '<div class="empty-state"><div class="empty-icon">&#9825;</div><div class="empty-title">Your wishlist is empty.</div><div class="empty-sub">Save items you love while browsing.</div><a href="shop.html" class="empty-btn">Shop All Collections</a></div>';
+      return;
+    }
+    var cards = wl.map(function(id){
+      var p = CAMP_PRODUCTS[id];
+      if (!p) return '';
+      return '<div class="wish-card">'
+        +'<a href="product.html?id='+p.id+'" style="text-decoration:none;color:inherit;">'
+          +'<div class="wish-img">'+p.emoji+'</div>'
+          +'<div class="wish-body">'
+            +'<div class="wish-collection">'+p.collection+'</div>'
+            +'<div class="wish-name">'+p.name+'</div>'
+            +'<div class="wish-price">$'+p.price+'</div>'
+          +'</div>'
+        +'</a>'
+        +'<div style="padding:0 18px 18px;">'
+          +'<div class="wish-actions">'
+            +'<a href="product.html?id='+p.id+'" class="wish-atc">View Product</a>'
+            +'<button class="wish-remove" onclick="removeFromWishlist(\''+p.id+'\')">Remove</button>'
+          +'</div>'
+        +'</div>'
+        +'</div>';
+    }).join('');
+    container.innerHTML = '<div class="wishlist-grid">'+cards+'</div>';
+  }
+
+  function removeFromWishlist(id) {
+    var wl = JSON.parse(localStorage.getItem('camp-wishlist') || '[]');
+    wl = wl.filter(function(i){return i !== id;});
+    localStorage.setItem('camp-wishlist', JSON.stringify(wl));
+    renderWishlist();
+  }
+
+  renderWishlist();
+
+  function openMenu(){document.getElementById('menuDrawer').classList.add('open');document.getElementById('menuOverlay').classList.add('open');document.body.style.overflow='hidden';}
+  function closeMenu(){document.getElementById('menuDrawer').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open');document.body.style.overflow='';}
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
+  (function(){var u=localStorage.getItem('camp-user');var nav=document.getElementById('menuAccountNav');nav.innerHTML=u?'<a href="account.html">My Account</a><a href="#" onclick="signOut()">Sign Out</a>':'<a href="signin.html">Sign In</a><a href="create-account.html">Create Account</a>';})();
+  function signOut(){localStorage.removeItem('camp-user');window.location.href='index.html';}
+</script>
+<script src="lang.js"></script>
+</body>
+</html>

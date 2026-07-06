@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMP — Size Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Archivo:wght@500;600;700&display=swap');
+  :root{--olive:#A9B36C;--olive-light:#C2CC8E;--olive-dark:#3A3C1C;--cream:#F0EDD9;--tan:#D8D2BF;--ink:#2A2A1E;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Cormorant Garamond',serif;background:var(--cream);color:var(--ink);min-height:100vh;}
+  .top-bar{display:flex;align-items:center;justify-content:space-between;padding:20px 28px;background:var(--olive-light);}
+  .top-bar-back{display:flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink);font-family:'Archivo',sans-serif;font-size:0.8rem;font-weight:600;letter-spacing:0.05em;}
+  .logo img{height:32px;width:auto;}
+  .page-wrap{max-width:760px;margin:0 auto;padding:60px 28px 100px;}
+  .page-eyebrow{font-family:'Archivo',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;opacity:0.4;margin-bottom:12px;}
+  .page-title{font-style:italic;font-size:3rem;font-weight:400;line-height:1.05;margin-bottom:16px;}
+  .page-sub{font-size:1.2rem;opacity:0.6;line-height:1.6;margin-bottom:48px;}
+  .guide-section{margin-bottom:48px;}
+  .guide-section-title{font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:16px;padding-bottom:12px;border-bottom:1.5px solid var(--tan);}
+  .size-table{width:100%;border-collapse:collapse;overflow-x:auto;display:block;}
+  .size-table th{font-family:'Archivo',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.5;padding:10px 16px;text-align:left;border-bottom:1.5px solid var(--tan);white-space:nowrap;}
+  .size-table td{font-size:1.1rem;padding:12px 16px;border-bottom:1px solid var(--tan);white-space:nowrap;}
+  .size-table tr:last-child td{border-bottom:none;}
+  .size-table tr:hover td{background:rgba(169,179,108,0.08);}
+  .size-table td:first-child{font-family:'Archivo',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:0.05em;}
+
+  .measure-guide{background:var(--olive-light);border-radius:6px;padding:28px 32px;margin-top:40px;}
+  .measure-title{font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:16px;}
+  .measure-list{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .measure-list li{font-size:1.15rem;line-height:1.55;padding-left:16px;position:relative;}
+  .measure-list li::before{content:'—';position:absolute;left:0;opacity:0.4;}
+  .measure-list strong{font-weight:600;}
+
+  .unit-toggle{display:flex;gap:0;margin-bottom:24px;border:1.5px solid var(--tan);border-radius:3px;width:fit-content;overflow:hidden;}
+  .unit-btn{padding:8px 20px;background:none;border:none;font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;color:var(--ink);transition:background 0.15s;}
+  .unit-btn.active{background:var(--olive-dark);color:var(--cream);}
+</style>
+</head>
+<body>
+  <div class="top-bar">
+    <a href="javascript:history.back()" class="top-bar-back">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back
+    </a>
+    <div class="logo"><a href="index.html"><img src="images/camp-logo-full.png" alt="CAMP"></a></div>
+    <div style="width:60px"></div>
+  </div>
+
+  <div class="page-wrap">
+    <div class="page-eyebrow">Fit</div>
+    <div class="page-title">Size Guide</div>
+    <div class="page-sub">All measurements are body measurements, not garment measurements. When between sizes, size up for a relaxed fit or size down for a trim fit.</div>
+
+    <div class="unit-toggle">
+      <button class="unit-btn active" id="inBtn" onclick="setUnit('in')">Inches</button>
+      <button class="unit-btn" id="cmBtn" onclick="setUnit('cm')">cm</button>
+    </div>
+
+    <!-- Tops -->
+    <div class="guide-section">
+      <div class="guide-section-title">Tops, Jackets &amp; Fleece</div>
+      <table class="size-table" id="topsTable">
+        <thead>
+          <tr>
+            <th>Size</th><th>Chest</th><th>Waist</th><th>Hip</th><th>Sleeve</th>
+          </tr>
+        </thead>
+        <tbody id="topsBody"></tbody>
+      </table>
+    </div>
+
+    <!-- Bottoms -->
+    <div class="guide-section">
+      <div class="guide-section-title">Pants &amp; Bottoms</div>
+      <table class="size-table" id="bottomsTable">
+        <thead>
+          <tr>
+            <th>Size</th><th>Waist</th><th>Hip</th><th>Inseam</th>
+          </tr>
+        </thead>
+        <tbody id="bottomsBody"></tbody>
+      </table>
+    </div>
+
+    <!-- Hats -->
+    <div class="guide-section">
+      <div class="guide-section-title">Hats &amp; Beanies</div>
+      <table class="size-table">
+        <thead><tr><th>Size</th><th>Head Circumference</th><th>Fits</th></tr></thead>
+        <tbody>
+          <tr><td>S/M</td><td id="h1">21–22.5"</td><td>Most</td></tr>
+          <tr><td>One Size</td><td id="h2">21–23"</td><td>Adjustable</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="measure-guide">
+      <div class="measure-title">How to Measure</div>
+      <ul class="measure-list">
+        <li><strong>Chest:</strong> Measure around the fullest part of your chest, keeping the tape parallel to the ground.</li>
+        <li><strong>Waist:</strong> Measure around your natural waistline, the narrowest part of your torso.</li>
+        <li><strong>Hip:</strong> Measure around the fullest part of your hips and seat, about 8" below your natural waist.</li>
+        <li><strong>Sleeve:</strong> Measure from the center back of your neck, over your shoulder, and down to your wrist.</li>
+        <li><strong>Inseam:</strong> Measure from your crotch to the bottom of your ankle.</li>
+      </ul>
+    </div>
+  </div>
+
+<script>
+  var tops = [
+    {size:'XS',chest:'32–34',waist:'26–28',hip:'35–37',sleeve:'31–32'},
+    {size:'S', chest:'34–36',waist:'28–30',hip:'37–39',sleeve:'32–33'},
+    {size:'M', chest:'36–38',waist:'30–32',hip:'39–41',sleeve:'33–34'},
+    {size:'L', chest:'38–40',waist:'32–34',hip:'41–43',sleeve:'34–35'},
+    {size:'XL',chest:'40–42',waist:'34–36',hip:'43–45',sleeve:'35–36'},
+    {size:'XXL',chest:'42–44',waist:'36–38',hip:'45–47',sleeve:'36–37'},
+  ];
+  var bottoms = [
+    {size:'XS',waist:'26–28',hip:'35–37',inseam:'30'},
+    {size:'S', waist:'28–30',hip:'37–39',inseam:'30'},
+    {size:'M', waist:'30–32',hip:'39–41',inseam:'31'},
+    {size:'L', waist:'32–34',hip:'41–43',inseam:'32'},
+    {size:'XL',waist:'34–36',hip:'43–45',inseam:'32'},
+    {size:'XXL',waist:'36–38',hip:'45–47',inseam:'33'},
+  ];
+
+  function inToCm(str) {
+    return str.replace(/(\d+\.?\d*)/g, function(n){
+      return Math.round(parseFloat(n)*2.54);
+    });
+  }
+
+  var unit = 'in';
+  function renderTops() {
+    document.getElementById('topsBody').innerHTML = tops.map(function(r){
+      var ch = unit==='cm'?inToCm(r.chest):r.chest;
+      var wa = unit==='cm'?inToCm(r.waist):r.waist;
+      var hi = unit==='cm'?inToCm(r.hip):r.hip;
+      var sl = unit==='cm'?inToCm(r.sleeve):r.sleeve;
+      var u = unit==='cm'?' cm':'"';
+      return '<tr><td>'+r.size+'</td><td>'+ch+u+'</td><td>'+wa+u+'</td><td>'+hi+u+'</td><td>'+sl+u+'</td></tr>';
+    }).join('');
+  }
+  function renderBottoms() {
+    document.getElementById('bottomsBody').innerHTML = bottoms.map(function(r){
+      var wa = unit==='cm'?inToCm(r.waist):r.waist;
+      var hi = unit==='cm'?inToCm(r.hip):r.hip;
+      var ins = unit==='cm'?Math.round(parseFloat(r.inseam)*2.54):r.inseam;
+      var u = unit==='cm'?' cm':'"';
+      return '<tr><td>'+r.size+'</td><td>'+wa+u+'</td><td>'+hi+u+'</td><td>'+ins+u+'</td></tr>';
+    }).join('');
+  }
+  function setUnit(u) {
+    unit = u;
+    document.getElementById('inBtn').classList.toggle('active', u==='in');
+    document.getElementById('cmBtn').classList.toggle('active', u==='cm');
+    renderTops();
+    renderBottoms();
+    var hatU = u==='cm'?' cm':'"';
+    document.getElementById('h1').textContent = u==='cm'?'53–57 cm':'21–22.5"';
+    document.getElementById('h2').textContent = u==='cm'?'53–58 cm':'21–23"';
+  }
+  renderTops();
+  renderBottoms();
+</script>
+</body>
+</html>

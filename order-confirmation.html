@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMP — Order Confirmed</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Archivo:wght@500;600;700&display=swap');
+  :root{--olive:#A9B36C;--olive-light:#C2CC8E;--olive-dark:#3A3C1C;--cream:#F0EDD9;--tan:#D8D2BF;--ink:#2A2A1E;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Cormorant Garamond',serif;background:var(--cream);color:var(--ink);min-height:100vh;}
+  .top-bar{display:flex;align-items:center;justify-content:center;padding:20px 28px;background:var(--olive-light);}
+  .logo img{height:32px;width:auto;}
+  .confirm-wrap{max-width:680px;margin:0 auto;padding:60px 28px 100px;}
+  .confirm-icon{font-size:3rem;margin-bottom:20px;text-align:center;}
+  .confirm-title{font-style:italic;font-size:3rem;font-weight:400;text-align:center;line-height:1.05;margin-bottom:8px;}
+  .confirm-sub{text-align:center;font-size:1.2rem;opacity:0.6;margin-bottom:40px;}
+  .confirm-panel{background:#fff;border:1.5px solid var(--tan);border-radius:6px;padding:28px 32px;margin-bottom:20px;}
+  .panel-label{font-family:'Archivo',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;opacity:0.4;margin-bottom:14px;}
+  .order-num{font-size:1.5rem;font-weight:500;font-style:italic;}
+  .order-date{font-size:1rem;opacity:0.5;margin-top:4px;}
+  .order-item{display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid var(--tan);}
+  .order-item:last-child{border-bottom:none;}
+  .item-emoji{width:44px;height:52px;background:var(--olive-light);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
+  .item-info{flex:1;}
+  .item-name{font-size:1.1rem;font-weight:500;}
+  .item-meta{font-size:0.95rem;opacity:0.5;}
+  .item-price{font-weight:500;white-space:nowrap;}
+  .totals-row{display:flex;justify-content:space-between;font-size:1.1rem;padding:6px 0;opacity:0.7;}
+  .totals-total{display:flex;justify-content:space-between;font-size:1.3rem;font-weight:500;padding:14px 0 0;border-top:1.5px solid var(--ink);margin-top:8px;}
+  .addr-text{font-size:1.15rem;line-height:1.7;opacity:0.75;}
+  .delivery-note{font-style:italic;font-size:1.2rem;opacity:0.6;margin-top:6px;}
+  .confirm-actions{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
+  .btn-primary{flex:1;display:block;padding:16px;background:var(--olive-dark);color:var(--cream);font-family:'Archivo',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;border-radius:3px;text-align:center;transition:background 0.2s;}
+  .btn-primary:hover{background:#2e3010;}
+  .btn-secondary{flex:1;display:block;padding:15px;border:1.5px solid var(--olive-dark);color:var(--ink);font-family:'Archivo',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;border-radius:3px;text-align:center;transition:background 0.15s;}
+  .btn-secondary:hover{background:var(--tan);}
+</style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="logo"><a href="index.html"><img src="images/camp-logo-full.png" alt="CAMP"></a></div>
+  </div>
+
+  <div class="confirm-wrap">
+    <div class="confirm-icon">&#9651;</div>
+    <div class="confirm-title">Order confirmed.</div>
+    <div class="confirm-sub" id="confirmSub">You'll receive an email confirmation shortly.</div>
+
+    <div class="confirm-panel">
+      <div class="panel-label">Order</div>
+      <div class="order-num" id="orderNum">CAMP-XXXXX</div>
+      <div class="order-date" id="orderDate"></div>
+    </div>
+
+    <div class="confirm-panel">
+      <div class="panel-label">Items</div>
+      <div id="orderItems"></div>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--tan);">
+        <div class="totals-row"><span>Subtotal</span><span id="confSubtotal"></span></div>
+        <div class="totals-row"><span>Shipping</span><span id="confShipping"></span></div>
+        <div class="totals-row"><span>Tax</span><span id="confTax"></span></div>
+        <div class="totals-total"><span>Total</span><span id="confTotal"></span></div>
+      </div>
+    </div>
+
+    <div class="confirm-panel">
+      <div class="panel-label">Shipping To</div>
+      <div class="addr-text" id="confAddress"></div>
+      <div class="delivery-note">Estimated delivery in 5–7 business days.</div>
+    </div>
+
+    <div class="confirm-actions">
+      <a href="shop.html" class="btn-primary">Continue Shopping</a>
+      <a href="account.html" class="btn-secondary">View My Account</a>
+    </div>
+  </div>
+
+<script>
+  var order = JSON.parse(localStorage.getItem('camp-last-order') || 'null');
+  if (!order) {
+    window.location.href = 'index.html';
+  } else {
+    document.getElementById('orderNum').textContent = order.id;
+    var d = new Date(order.date);
+    document.getElementById('orderDate').textContent = d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+    var sub = order.items.reduce(function(s,i){return s+i.price*i.qty;},0);
+    document.getElementById('orderItems').innerHTML = order.items.map(function(it){
+      var meta = it.collection||'';
+      if(it.size) meta+=(meta?'  ·  ':'')+it.size;
+      if(it.color) meta+='  ·  '+it.color;
+      return '<div class="order-item"><div class="item-emoji">'+(it.emoji||'&#9651;')+'</div><div class="item-info"><div class="item-name">'+it.name+'</div><div class="item-meta">'+meta+(it.qty>1?' &times;'+it.qty:'')+'</div></div><div class="item-price">$'+(it.price*it.qty)+'</div></div>';
+    }).join('');
+    document.getElementById('confSubtotal').textContent = '$'+sub;
+    document.getElementById('confShipping').textContent = order.shipping===0?'Free':'$'+order.shipping+'.00';
+    document.getElementById('confTax').textContent = '$'+order.tax;
+    document.getElementById('confTotal').textContent = '$'+order.total;
+    if (order.address) {
+      document.getElementById('confAddress').innerHTML =
+        order.address.name+'<br>'+
+        order.address.street+'<br>'+
+        order.address.city+', '+order.address.state+' '+order.address.zip+'<br>'+
+        order.address.country;
+    }
+    var u = localStorage.getItem('camp-user');
+    if (u) document.getElementById('confirmSub').textContent = 'A confirmation has been sent to '+u+'.';
+  }
+</script>
+</body>
+</html>

@@ -53,7 +53,8 @@
   .payment-note{font-size:1.1rem;opacity:0.6;line-height:1.6;}
 
   /* Quick links */
-  .quick-links{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .quick-links{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  @media(max-width:500px){.quick-links{grid-template-columns:1fr 1fr;}}
   .quick-link{display:block;padding:18px 20px;background:var(--olive-light);border-radius:4px;text-decoration:none;color:var(--ink);font-style:italic;font-size:1.2rem;transition:background 0.15s;text-align:center;}
   .quick-link:hover{background:var(--tan);}
 
@@ -152,9 +153,7 @@
 
     <!-- Orders -->
     <div class="section-label">Order History</div>
-    <div class="account-panel" id="ordersPanel">
-      <div class="order-empty">No orders yet. <a href="shop.html" style="color:var(--olive-dark);">Start shopping →</a></div>
-    </div>
+    <div class="account-panel" id="ordersPanel"></div>
 
     <!-- Saved Address -->
     <div class="section-label">Saved Address</div>
@@ -184,6 +183,7 @@
     <div class="section-label" style="margin-top:40px;">Quick Links</div>
     <div class="quick-links">
       <a href="cart.html" class="quick-link">Cart</a>
+      <a href="wishlist.html" class="quick-link">Wishlist</a>
       <a href="shipping.html" class="quick-link">Shipping &amp; Returns</a>
       <a href="help.html" class="quick-link">Help &amp; FAQ</a>
     </div>
@@ -198,6 +198,25 @@
   document.getElementById('userEmail').textContent = user;
   var firstName = user ? user.split('@')[0] : '';
   document.getElementById('greeting').textContent = 'Hello, ' + firstName + '.';
+
+  // Render order history
+  (function(){
+    var orders = JSON.parse(localStorage.getItem('camp-orders-' + user) || '[]');
+    var panel = document.getElementById('ordersPanel');
+    if (!orders.length) {
+      panel.innerHTML = '<div class="order-empty">No orders yet. <a href="shop.html" style="color:var(--olive-dark);">Start shopping →</a></div>';
+    } else {
+      panel.innerHTML = orders.map(function(o){
+        var d = new Date(o.date);
+        var dateStr = d.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});
+        return '<div class="order-row">'
+          +'<div><div class="order-num">'+o.id+'</div><div class="order-date">'+dateStr+'</div></div>'
+          +'<div class="order-total">$'+o.total+'</div>'
+          +'<div class="order-status">'+o.status+'</div>'
+          +'</div>';
+      }).join('');
+    }
+  })();
 
   // Load saved address
   var addr = JSON.parse(localStorage.getItem('camp-address-' + user) || '{}');

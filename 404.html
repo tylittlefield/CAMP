@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMP — Page Not Found</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Archivo:wght@500;600;700&display=swap');
+  :root{--olive:#A9B36C;--olive-light:#C2CC8E;--olive-dark:#3A3C1C;--cream:#F0EDD9;--tan:#D8D2BF;--ink:#2A2A1E;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;}
+  body{font-family:'Cormorant Garamond',serif;background:var(--olive-dark);color:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:40px 28px;}
+  .logo img{height:40px;width:auto;margin-bottom:48px;opacity:0.7;}
+  .num{font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;opacity:0.4;margin-bottom:16px;}
+  .title{font-style:italic;font-size:clamp(2.4rem,7vw,4.5rem);font-weight:400;line-height:1.05;margin-bottom:16px;}
+  .sub{font-size:1.2rem;opacity:0.6;margin-bottom:40px;line-height:1.6;}
+  .actions{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;}
+  .btn-primary{padding:14px 32px;background:var(--olive-light);color:var(--olive-dark);font-family:'Archivo',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;border-radius:3px;transition:background 0.2s;}
+  .btn-primary:hover{background:#d4de9e;}
+  .btn-secondary{padding:13px 32px;border:1.5px solid rgba(240,237,217,0.35);color:var(--cream);font-family:'Archivo',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;border-radius:3px;transition:border-color 0.2s;}
+  .btn-secondary:hover{border-color:var(--cream);}
+</style>
+</head>
+<body>
+  <div class="logo"><a href="index.html"><img src="images/camp-logo-full.png" alt="CAMP"></a></div>
+  <div class="num">404</div>
+  <div class="title">Lost on the trail.</div>
+  <div class="sub">The page you're looking for doesn't exist.<br>Maybe it moved, or maybe the trail was never there.</div>
+  <div class="actions">
+    <a href="index.html" class="btn-primary">Back to Map</a>
+    <a href="shop.html" class="btn-secondary">Shop All</a>
+  </div>
+</body>
+</html>

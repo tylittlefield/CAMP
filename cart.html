@@ -286,7 +286,7 @@
       <div class="summary-row"><span>Shipping</span><span>Calculated at checkout</span></div>
       <div class="summary-row"><span>Tax</span><span>Calculated at checkout</span></div>
       <div class="summary-total"><span>Total</span><span id="total">$0</span></div>
-      <button class="checkout-btn">Proceed to Checkout</button>
+      <button class="checkout-btn" onclick="window.location.href='checkout.html'">Proceed to Checkout</button>
       <a href="shop.html" class="continue-link">Continue shopping</a>
 
       <div class="promo-wrap">
@@ -305,7 +305,7 @@
     function openMenu(){document.getElementById('menuDrawer').classList.add('open');document.getElementById('menuOverlay').classList.add('open');document.body.style.overflow='hidden';}
     function closeMenu(){document.getElementById('menuDrawer').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open');document.body.style.overflow='';}
     document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
-    (function(){var u=localStorage.getItem('camp-user');var nav=document.getElementById('menuAccountNav');nav.innerHTML=u?'<a href="account.html">My Account</a><a href="#" onclick="signOut()">Sign Out</a>':'<a href="signin.html">Sign In</a><a href="create-account.html">Create Account</a>';})();
+    (function(){var u=localStorage.getItem('camp-user');var nav=document.getElementById('menuAccountNav');nav.innerHTML=u?'<a href="account.html">My Account</a><a href="wishlist.html">Wishlist</a><a href="#" onclick="signOut()">Sign Out</a>':'<a href="signin.html">Sign In</a><a href="create-account.html">Create Account</a>';})();
     function signOut(){localStorage.removeItem('camp-user');window.location.href='index.html';};
 
     function renderCart() {
