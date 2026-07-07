@@ -6,6 +6,8 @@
 <title>CAMP — Explore</title>
 <link rel="stylesheet" href="style.css">
 </head>
+
+<style>.map-chat-btn{position:absolute;top:16px;right:70px;display:flex;align-items:center;justify-content:center;width:38px;height:38px;background:rgba(20,16,10,0.85);border:2px solid #6b5a3f;border-radius:50%;cursor:pointer;color:#f4ead0;z-index:5;transition:transform 0.2s,background 0.2s;}.map-chat-btn:hover{background:rgba(60,45,25,0.95);transform:scale(1.08);}.map-chat-btn svg{width:17px;height:17px;}</style>
 <body class="explore-body">
   <div class="explore-page">
 
@@ -37,6 +39,8 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
     </a>
 
+    <button class="map-chat-btn" onclick="window.CAMP_CHAT&&window.CAMP_CHAT.toggle()" aria-label="Chat with us"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
+
     <button class="day-night-toggle" id="dnToggle" aria-label="Toggle day/night">
       <svg id="dnIcon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
         <path d="M12 3a9 9 0 1 0 9 9 9 9 0 0 1-9-9z"/>
@@ -48,5 +52,7 @@
   </div>
 
   <script src="script.js"></script>
+
+<script src="chat.js"></script>
 </body>
 </html>

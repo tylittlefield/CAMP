@@ -55,7 +55,7 @@
       Cart
     </a>
     <div class="logo"><a href="index.html"><img src="images/camp-logo-full.png" alt="CAMP"></a></div>
-    <div style="width:60px"></div>
+    <button class="camp-chat-btn" onclick="window.CAMP_CHAT&&window.CAMP_CHAT.toggle()" aria-label="Chat with us"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
   </div>
 
   <div class="checkout-wrap" id="checkoutWrap">
@@ -246,5 +246,7 @@
     this.value = v;
   });
 </script>
+
+<script src="chat.js"></script>
 </body>
 </html>

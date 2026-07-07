@@ -219,10 +219,13 @@
       <span></span><span></span><span></span>
     </div>
     <div class="logo"><a href="index.html"><img src="images/camp-logo-full.png" alt="CAMP"></a></div>
-    <a href="cart.html" class="cart-link">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <button class="camp-chat-btn" onclick="window.CAMP_CHAT&&window.CAMP_CHAT.toggle()" aria-label="Chat with us"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
+      <a href="cart.html" class="cart-link">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
       <span data-i18n="cart">Cart</span>
     </a>
+    </div>
   </header>
 
   <!-- Hero -->
@@ -314,5 +317,7 @@
     function signOut(){localStorage.removeItem('camp-user');window.location.href='index.html';}
   </script>
   <script src="lang.js"></script>
+
+<script src="chat.js"></script>
 </body>
 </html>

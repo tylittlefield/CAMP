@@ -238,9 +238,11 @@
     .card { padding: 36px 24px 32px; }
     .card-title { font-size: 1.9rem; }
   }
+  .camp-chat-fixed{position:fixed;top:18px;right:18px;z-index:9999;display:flex;align-items:center;justify-content:center;width:36px;height:36px;background:#3A3C1C;border:none;border-radius:50%;cursor:pointer;color:#F0EDD9;transition:transform 0.18s;}.camp-chat-fixed:hover{transform:scale(1.08);}.camp-chat-fixed svg{width:17px;height:17px;}
 </style>
 </head>
 <body>
+  <button class="camp-chat-fixed" onclick="window.CAMP_CHAT&&window.CAMP_CHAT.toggle()" aria-label="Chat with us"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
 
   <div class="top-bar">
     <a href="javascript:history.back()">
@@ -308,5 +310,7 @@
   });
 </script>
 <script src="lang.js"></script>
+
+<script src="chat.js"></script>
 </body>
 </html>
