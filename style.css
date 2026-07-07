@@ -219,6 +219,19 @@ body {
 
 /* explore page hotspots share the same radial vignette circle style */
 
+/* Sign hotspots — clickable trail signs */
+.sign-hotspot {
+  position: absolute;
+  display: block;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+.sign-hotspot:hover {
+  background: rgba(255, 220, 120, 0.18);
+  box-shadow: 0 0 0 2px rgba(255, 200, 80, 0.35);
+}
+
 /* Back arrow */
 .back-arrow {
   position: absolute;
