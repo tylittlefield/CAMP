@@ -613,7 +613,7 @@ body {
 
 .home-footer-cols {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 40px;
   margin-bottom: 48px;
 }
@@ -661,7 +661,7 @@ body {
   color: #F0EDD9;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .home-footer-cols { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 380px) {
