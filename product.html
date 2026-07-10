@@ -33,11 +33,18 @@
 
   .option-label{font-family:'Archivo',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.55;margin-bottom:10px;}
   .size-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;}
-  .size-btn{padding:9px 16px;border:1.5px solid var(--tan);border-radius:3px;background:none;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--ink);cursor:pointer;transition:border-color 0.15s,background 0.15s;}
-  .size-btn:hover{border-color:var(--olive-dark);}
+  .size-btn{padding:9px 16px;border:1.5px solid var(--tan);border-radius:3px;background:none;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--ink);cursor:pointer;transition:border-color 0.15s,background 0.15s;position:relative;}
+  .size-btn:hover:not(.sold-out){border-color:var(--olive-dark);}
   .size-btn.selected{border-color:var(--olive-dark);background:var(--olive-dark);color:var(--cream);}
+  .size-btn.sold-out{opacity:0.35;cursor:not-allowed;text-decoration:line-through;}
+  .size-btn.low-stock{border-color:#c8873a;}
 
-  .color-grid{display:flex;gap:10px;margin-bottom:28px;}
+  .stock-badge{display:inline-block;font-family:'Archivo',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:3px 8px;border-radius:2px;margin-bottom:16px;}
+  .stock-badge.stock-low{background:#fff3e0;color:#c8693a;}
+  .stock-badge.stock-out{background:#fce4e4;color:#c0392b;}
+  .size-stock-note{font-style:italic;font-size:0.95rem;color:#c8693a;margin-bottom:12px;min-height:1.2em;}
+
+  .color-grid{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;}
   .color-btn{padding:8px 16px;border:1.5px solid var(--tan);border-radius:3px;background:none;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--ink);cursor:pointer;transition:border-color 0.15s,background 0.15s;}
   .color-btn:hover{border-color:var(--olive-dark);}
   .color-btn.selected{border-color:var(--olive-dark);background:var(--olive-dark);color:var(--cream);}
@@ -77,6 +84,20 @@
   .review-author{font-size:0.9rem;opacity:0.45;margin-top:12px;}
   .review-write-btn{font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:none;border:1.5px solid var(--tan);border-radius:3px;padding:10px 22px;color:var(--ink);cursor:pointer;transition:background 0.15s;}
   .review-write-btn:hover{background:var(--tan);}
+
+  .related-section{max-width:1060px;margin:0 auto;padding:0 28px 80px;}
+  .related-heading{font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;opacity:0.45;margin-bottom:24px;padding-top:24px;border-top:1px solid var(--tan);}
+  .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  @media(max-width:600px){.related-grid{grid-template-columns:repeat(2,1fr);gap:12px;}.related-section{padding:0 16px 48px;}}
+  .related-card{display:flex;flex-direction:column;text-decoration:none;color:var(--ink);}
+  .related-img{background:var(--olive-light);border-radius:4px;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;font-size:3rem;margin-bottom:10px;transition:opacity 0.2s;}
+  .related-card:hover .related-img{opacity:0.85;}
+  .related-coll{font-family:'Archivo',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.4;margin-bottom:3px;}
+  .related-name{font-size:1.05rem;font-style:italic;margin-bottom:3px;}
+  .related-price{font-size:0.95rem;font-weight:500;opacity:0.7;}
+  .related-stock-badge{font-family:'Archivo',sans-serif;font-size:0.58rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:2px 6px;border-radius:2px;margin-top:4px;display:inline-block;}
+  .related-stock-badge.stock-low{background:#fff3e0;color:#c8693a;}
+  .related-stock-badge.stock-out{background:#fce4e4;color:#c0392b;}
 
   .menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,0);z-index:100;pointer-events:none;transition:background 0.3s ease;}
   .menu-overlay.open{background:rgba(0,0,0,0.45);pointer-events:all;}
@@ -166,9 +187,11 @@
       <div class="product-price" id="productPrice"></div>
       <div class="product-desc" id="productDesc"></div>
 
+      <div id="stockBadge"></div>
       <div id="sizeSection">
         <div class="option-label">Size</div>
         <div class="size-grid" id="sizeGrid"></div>
+        <div class="size-stock-note" id="sizeStockNote"></div>
         <a href="size-guide.html" class="size-guide-link">Size Guide →</a>
       </div>
 
@@ -220,6 +243,8 @@
     <button class="review-write-btn" onclick="alert('Review submission coming soon.')">Write a Review</button>
   </div>
 
+  <div class="related-section" id="relatedSection"></div>
+
 <script src="products.js"></script>
 <script src="cart.js"></script>
 <script>
@@ -241,16 +266,36 @@
     document.getElementById('productDesc').textContent = product.description;
     document.getElementById('detailsList').innerHTML = product.details.map(function(d){return '<li>'+d+'</li>';}).join('');
 
-    // Size buttons
+    // Overall stock badge
+    var totalStock = getTotalStock(product);
+    var overallLabel = getStockLabel(totalStock);
+    if (overallLabel) {
+      document.getElementById('stockBadge').innerHTML = '<span class="stock-badge '+overallLabel.cls+'">'+overallLabel.text+'</span>';
+    }
+
+    // Size buttons with per-size stock
     var sg = document.getElementById('sizeGrid');
     product.sizes.forEach(function(s){
       var btn = document.createElement('button');
+      var sizeStock = getStockForSize(product, s);
+      var lbl = getStockLabel(sizeStock);
       btn.className = 'size-btn';
       btn.textContent = s;
-      if (s === 'One Size') btn.classList.add('selected');
+      if (sizeStock === 0) {
+        btn.classList.add('sold-out');
+        btn.disabled = true;
+        btn.title = 'Sold out';
+      } else if (lbl) {
+        btn.classList.add('low-stock');
+      }
+      if (s === 'One Size' && sizeStock > 0) btn.classList.add('selected');
       btn.onclick = function(){
+        if (sizeStock === 0) return;
         sg.querySelectorAll('.size-btn').forEach(function(b){b.classList.remove('selected');});
         btn.classList.add('selected');
+        var note = document.getElementById('sizeStockNote');
+        var sl = getStockLabel(sizeStock);
+        note.textContent = sl ? sl.text : '';
       };
       sg.appendChild(btn);
     });
@@ -267,6 +312,26 @@
       };
       cg.appendChild(btn);
     });
+
+    // Related products
+    if (product.related && product.related.length) {
+      var relHtml = '<div class="related-heading">You Might Also Like</div><div class="related-grid">';
+      product.related.forEach(function(rid){
+        var rp = CAMP_PRODUCTS[rid];
+        if (!rp) return;
+        var ts = getTotalStock(rp);
+        var rl = getStockLabel(ts);
+        relHtml += '<a href="product.html?id='+rp.id+'" class="related-card">';
+        relHtml += '<div class="related-img">'+rp.emoji+'</div>';
+        relHtml += '<div class="related-coll">'+rp.collection+'</div>';
+        relHtml += '<div class="related-name">'+rp.name+'</div>';
+        relHtml += '<div class="related-price">$'+rp.price+'</div>';
+        if (rl) relHtml += '<span class="related-stock-badge '+rl.cls+'">'+rl.text+'</span>';
+        relHtml += '</a>';
+      });
+      relHtml += '</div>';
+      document.getElementById('relatedSection').innerHTML = relHtml;
+    }
 
     // Wishlist state
     updateWishlistBtn();

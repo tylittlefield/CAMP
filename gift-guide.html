@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMP — Gift Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Archivo:wght@500;600;700&display=swap');
+  :root{--olive:#A9B36C;--olive-light:#C2CC8E;--olive-dark:#3A3C1C;--cream:#F0EDD9;--tan:#D8D2BF;--ink:#2A2A1E;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Cormorant Garamond',serif;background:var(--cream);color:var(--ink);min-height:100vh;}
+  header{display:flex;align-items:center;justify-content:space-between;padding:24px 28px 18px;background:var(--olive-light);}
+  .menu-icon{display:flex;flex-direction:column;gap:6px;cursor:pointer;}
+  .menu-icon span{display:block;width:32px;height:3px;background:var(--ink);}
+  .logo a{display:flex;align-items:center;text-decoration:none;}
+  .logo img{height:34px;width:auto;}
+  .cart-link{display:flex;align-items:center;gap:6px;font-family:'Archivo',sans-serif;font-weight:600;font-size:1rem;text-decoration:none;color:inherit;}
+  .cart-link svg{width:24px;height:22px;}
+
+  .hero{padding:56px 28px 36px;border-bottom:1px solid var(--tan);}
+  .hero-eyebrow{font-family:'Archivo',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;opacity:0.4;margin-bottom:12px;}
+  .hero-title{font-style:italic;font-size:3.4rem;font-weight:400;line-height:1.05;margin-bottom:14px;}
+  .hero-sub{font-size:1.25rem;opacity:0.65;max-width:500px;line-height:1.6;}
+
+  .guide-tabs{display:flex;overflow-x:auto;gap:0;padding:0 28px;border-bottom:1px solid var(--tan);scrollbar-width:none;}
+  .guide-tabs::-webkit-scrollbar{display:none;}
+  .guide-tab{flex-shrink:0;padding:16px 22px;font-family:'Archivo',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border:none;background:none;color:var(--ink);opacity:0.45;border-bottom:2px solid transparent;transition:opacity 0.15s,border-color 0.15s;white-space:nowrap;}
+  .guide-tab.active{opacity:1;border-bottom-color:var(--olive-dark);}
+
+  .guide-section{padding:48px 28px 80px;display:none;}
+  .guide-section.active{display:block;}
+  .section-intro{font-style:italic;font-size:1.5rem;opacity:0.65;margin-bottom:36px;max-width:520px;line-height:1.5;}
+  .product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .product-card{display:flex;flex-direction:column;text-decoration:none;color:var(--ink);}
+  .product-img{background:var(--olive-light);border-radius:4px;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;font-size:3.5rem;margin-bottom:12px;transition:opacity 0.2s;position:relative;overflow:hidden;}
+  .product-card:hover .product-img{opacity:0.85;}
+  .new-badge{position:absolute;top:10px;left:10px;background:var(--olive-dark);color:var(--cream);font-family:'Archivo',sans-serif;font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;border-radius:2px;}
+  .product-coll{font-family:'Archivo',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.4;margin-bottom:3px;}
+  .product-name{font-size:1.1rem;font-style:italic;margin-bottom:4px;}
+  .product-price{font-size:0.95rem;font-weight:500;opacity:0.75;}
+  .stock-pill{display:inline-block;font-family:'Archivo',sans-serif;font-size:0.58rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:2px 7px;border-radius:2px;margin-top:5px;}
+  .stock-pill.stock-low{background:#fff3e0;color:#c8693a;}
+  .stock-pill.stock-out{background:#fce4e4;color:#c0392b;}
+
+  .guide-cta{margin-top:48px;padding:32px 36px;background:var(--olive-dark);border-radius:6px;color:var(--cream);display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+  .cta-text{font-style:italic;font-size:1.5rem;opacity:0.9;}
+  .cta-btn{display:inline-block;padding:13px 26px;background:var(--cream);color:var(--olive-dark);font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;border-radius:3px;white-space:nowrap;transition:background 0.15s;}
+  .cta-btn:hover{background:var(--olive-light);}
+
+  .menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,0);z-index:100;pointer-events:none;transition:background 0.3s ease;}
+  .menu-overlay.open{background:rgba(0,0,0,0.45);pointer-events:all;}
+  .menu-drawer{position:fixed;top:0;left:0;width:300px;max-width:85vw;height:100vh;background:var(--cream);z-index:101;transform:translateX(-100%);transition:transform 0.32s cubic-bezier(.4,0,.2,1);overflow-y:auto;display:flex;flex-direction:column;}
+  .menu-drawer.open{transform:translateX(0);}
+  .menu-top{display:flex;align-items:center;justify-content:space-between;padding:22px 28px 18px;border-bottom:1px solid var(--tan);}
+  .menu-top-label{font-family:'Archivo',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);}
+  .menu-close-btn{background:none;border:none;cursor:pointer;font-size:1.4rem;color:var(--ink);display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;transition:background 0.15s ease;}
+  .menu-close-btn:hover{background:var(--tan);}
+  .menu-section{font-family:'Archivo',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);opacity:0.45;padding:20px 28px 6px;}
+  .menu-nav a{display:block;padding:11px 28px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.45rem;color:var(--ink);text-decoration:none;transition:background 0.15s ease;}
+  .menu-nav a:hover{background:var(--tan);}
+  .menu-divider{height:1px;background:var(--tan);margin:8px 0;}
+  .menu-lang-wrap{padding:10px 28px;}
+  .menu-lang-select{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.4rem;background:none;border:none;color:var(--ink);cursor:pointer;width:100%;padding:2px 0;-webkit-appearance:none;appearance:none;}
+  @media(max-width:700px){
+    header{padding:14px 16px 12px;}
+    .hero{padding:36px 16px 24px;}
+    .hero-title{font-size:2rem;}
+    .guide-tabs{padding:0 16px;}
+    .guide-section{padding:32px 16px 60px;}
+    .product-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
+    .guide-cta{padding:22px 20px;}
+    .cta-text{font-size:1.2rem;}
+  }
+</style>
+</head>
+<body>
+  <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+  <nav class="menu-drawer" id="menuDrawer">
+    <div class="menu-top">
+      <span class="menu-top-label">Menu</span>
+      <button class="menu-close-btn" onclick="closeMenu()" aria-label="Close menu">&#x2715;</button>
+    </div>
+    <a href="shop.html" class="menu-section" style="display:block;text-decoration:none;cursor:pointer;">Collections</a>
+    <div class="menu-nav">
+      <a href="peaks-collection.html">Peaks Collection</a>
+      <a href="explorer-collection.html">Explorer Collection</a>
+      <a href="wildlife-collection.html">Wildlife Collection</a>
+      <a href="base-camp-collection.html">Base Camp</a>
+      <a href="sea-collection.html">Sea Collection</a>
+    </div>
+    <div class="menu-divider"></div>
+    <div class="menu-section">Map</div>
+    <div class="menu-nav"><a href="index.html">Map</a></div>
+    <div class="menu-divider"></div>
+    <div class="menu-nav">
+      <a href="search.html">Search</a>
+      <a href="explore.html">Explore</a>
+      <a href="shop.html">Shop All</a>
+      <a href="gift-guide.html">Gift Guide</a>
+      <a href="new-arrivals.html">New Arrivals</a>
+      <a href="about.html">About</a>
+      <a href="help.html">Help</a>
+    </div>
+    <div class="menu-divider"></div>
+    <div class="menu-section">Account</div>
+    <div class="menu-nav" id="menuAccountNav"></div>
+    <div class="menu-divider"></div>
+    <div class="menu-section">Language</div>
+    <div class="menu-lang-wrap">
+      <select class="menu-lang-select" onchange="setLanguage(this.value)">
+        <option value="en">&#127760; English</option>
+        <option value="es">&#127760; Espa&#241;ol</option>
+        <option value="fr">&#127760; Fran&#231;ais</option>
+        <option value="de">&#127760; Deutsch</option>
+        <option value="ja">&#127760; &#26085;&#26412;&#35486;</option>
+        <option value="zh">&#127760; &#20013;&#25991;</option>
+      </select>
+    </div>
+  </nav>
+
+  <header>
+    <div class="menu-icon" onclick="openMenu()" role="button" aria-label="Open menu" tabindex="0">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="logo"><a href="index.html"><img src="images/camp-logo-full.png" alt="CAMP"></a></div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <button class="camp-chat-btn" onclick="window.CAMP_CHAT&&window.CAMP_CHAT.toggle()" aria-label="Chat with us"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
+      <a href="cart.html" class="cart-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        Cart
+      </a>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-eyebrow">Gift Guide</div>
+    <div class="hero-title">For everyone<br><em>out there.</em></div>
+    <div class="hero-sub">Gear and clothing for the people who'd rather be outside. Browse by budget or by who you're shopping for.</div>
+  </div>
+
+  <div class="guide-tabs" id="guideTabs">
+    <button class="guide-tab active" data-tab="stocking-stuffer">Stocking Stuffers</button>
+    <button class="guide-tab" data-tab="under100">Under $100</button>
+    <button class="guide-tab" data-tab="under150">Under $150</button>
+    <button class="guide-tab" data-tab="peak-bagger">For the Peak Bagger</button>
+    <button class="guide-tab" data-tab="explorer">For the Explorer</button>
+    <button class="guide-tab" data-tab="wildlife">For the Nature Lover</button>
+    <button class="guide-tab" data-tab="camp">For the Camp Cook</button>
+    <button class="guide-tab" data-tab="sea">For the Sea Soul</button>
+  </div>
+
+  <div id="guideContent"></div>
+
+  <script src="products.js"></script>
+  <script>
+    var TABS = {
+      'stocking-stuffer': {
+        intro: 'Great gifts under $50. Things people actually use, made to last longer than the season.',
+        ids: ['peak-beanie','trail-cap','nature-cap','base-camp-beanie','maritime-cap','shoreline-tee','forest-tee']
+      },
+      'under100': {
+        intro: 'Thoughtful picks at an easy price. From base layers to button-downs, all under $100.',
+        ids: ['base-layer-top','field-shirt','explorer-vest','shoreline-tee','forest-tee','trail-cap','wilderness-hoodie']
+      },
+      'under150': {
+        intro: 'The sweet spot — substantial enough to feel like a real gift, under $150.',
+        ids: ['wilderness-hoodie','camp-fleece','summit-fleece','harbor-crew-fleece','wildlife-crew','camp-pant','base-layer-top']
+      },
+      'peak-bagger': {
+        intro: 'For the one who wakes up at 3am for a summit. Technical, thoughtful, and built for the alpine.',
+        ids: ['ridge-shell-jacket','summit-fleece','ascent-pant','peak-beanie','trail-jacket']
+      },
+      'explorer': {
+        intro: 'For the person who never has a plan but always ends up somewhere interesting.',
+        ids: ['trail-jacket','explorer-vest','field-shirt','trail-cap','ascent-pant']
+      },
+      'wildlife': {
+        intro: 'For the one who knows every bird call and notices when the light changes in the trees.',
+        ids: ['wilderness-hoodie','forest-tee','wildlife-crew','nature-cap','camp-fleece']
+      },
+      'camp': {
+        intro: 'For the one who perfects the morning coffee ritual at 7,000 feet. Comfort-first, never sacrificing function.',
+        ids: ['camp-fleece','base-layer-top','camp-pant','base-camp-beanie','summit-fleece']
+      },
+      'sea': {
+        intro: 'For the one who is always pointed toward the water. Salt-proof and effortlessly coastal.',
+        ids: ['tide-jacket','harbor-crew-fleece','shoreline-tee','maritime-cap','explorer-vest']
+      }
+    };
+
+    function renderTab(tabKey) {
+      var tab = TABS[tabKey];
+      var products = tab.ids.map(function(id){return CAMP_PRODUCTS[id];}).filter(Boolean);
+      var html = '<div class="guide-section active">';
+      html += '<div class="section-intro">'+tab.intro+'</div>';
+      html += '<div class="product-grid">';
+      products.forEach(function(p){
+        var totalStock = getTotalStock(p);
+        var sl = getStockLabel(totalStock);
+        var stockHtml = sl ? '<div class="stock-pill '+sl.cls+'">'+sl.text+'</div>' : '';
+        var newBadge = p.isNew ? '<div class="new-badge">New</div>' : '';
+        html += '<a href="product.html?id='+p.id+'" class="product-card">';
+        html += '<div class="product-img">'+p.emoji+newBadge+'</div>';
+        html += '<div class="product-coll">'+p.collection+'</div>';
+        html += '<div class="product-name">'+p.name+'</div>';
+        html += '<div class="product-price">$'+p.price+'</div>';
+        html += stockHtml;
+        html += '</a>';
+      });
+      html += '</div>';
+      html += '<div class="guide-cta"><div class="cta-text">Not sure? Shop everything.</div><a href="shop.html" class="cta-btn">View All Products</a></div>';
+      html += '</div>';
+      document.getElementById('guideContent').innerHTML = html;
+    }
+
+    document.getElementById('guideTabs').addEventListener('click', function(e){
+      var tab = e.target.closest('.guide-tab');
+      if (!tab) return;
+      document.querySelectorAll('.guide-tab').forEach(function(t){t.classList.remove('active');});
+      tab.classList.add('active');
+      renderTab(tab.dataset.tab);
+    });
+
+    renderTab('stocking-stuffer');
+
+    function openMenu(){document.getElementById('menuDrawer').classList.add('open');document.getElementById('menuOverlay').classList.add('open');document.body.style.overflow='hidden';}
+    function closeMenu(){document.getElementById('menuDrawer').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open');document.body.style.overflow='';}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
+    (function(){var u=localStorage.getItem('camp-user');var nav=document.getElementById('menuAccountNav');nav.innerHTML=u?'<a href="account.html">My Account</a><a href="#" onclick="signOut()">Sign Out</a>':'<a href="signin.html">Sign In</a><a href="create-account.html">Create Account</a>';})();
+    function signOut(){localStorage.removeItem('camp-user');window.location.href='index.html';}
+  </script>
+  <script src="lang.js"></script>
+  <script src="chat.js"></script>
+</body>
+</html>
